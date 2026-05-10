@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Plumbing"
+    },
+    {
+        "name": "Electrical"
+    },
+    {
+        "name": "Carpentry"
+    },
+    {
+        "name": "Painting"
+    },
+    {
+        "name": "Cleaning"
+    },
+    {
+        "name": "Gardening"
+    },
+    {
+        "name": "Moving"
+    },
+    {
+        "name": "Handyman"
+    }
+]

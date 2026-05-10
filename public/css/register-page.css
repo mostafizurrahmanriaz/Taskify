@@ -1,0 +1,90 @@
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f7f9fc;
+        }
+
+        .register-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .register-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .brand {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ff7e5f;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            font-weight: 600;
+            color: #1f2d3d;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .form-control {
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .form-control:focus {
+            border-color: #ff7e5f;
+            box-shadow: 0 0 0 0.2rem rgba(255,126,95,0.2);
+        }
+
+        .btn-custom {
+            background: linear-gradient(135deg, #ff7e5f, #ff9472);
+            border: none;
+            border-radius: 30px;
+            padding: 12px;
+            font-weight: 500;
+            color: #fff;
+            transition: 0.3s;
+        }
+
+        .btn-custom:hover {
+            opacity: 0.9;
+        }
+
+        .role-select {
+            display: flex;
+            gap: 10px;
+        }
+
+        .role-card {
+            flex: 1;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .role-card.active {
+            border-color: #ff7e5f;
+            background: rgba(255,126,95,0.1);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .login-link a {
+            color: #ff7e5f;
+            text-decoration: none;
+        }
