@@ -8,4 +8,6 @@ class Provider extends Model
 {
     protected $guarded = [];
     public $timestamps = false;
+
+    
 }

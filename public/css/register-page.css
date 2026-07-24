@@ -79,12 +79,12 @@
             background: rgba(255,126,95,0.1);
         }
 
-        .login-link {
+        .link {
             text-align: center;
             margin-top: 15px;
         }
 
-        .login-link a {
+        .link a {
             color: #ff7e5f;
             text-decoration: none;
         }

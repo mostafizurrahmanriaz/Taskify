@@ -27,7 +27,6 @@ class ProviderRequest extends FormRequest
             'phone' => 'required|min:11',
             'experience' => 'required',
             'district' => 'required',
-            'skills' => 'required',
             'address' => 'required',
             'bio' => 'required',
         ];

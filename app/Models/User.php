@@ -47,4 +47,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // one to one relationship define
+    public function provider(){
+        return $this->hasOne(Provider::class);
+    }
 }

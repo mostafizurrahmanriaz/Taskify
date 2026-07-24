@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureProviderSetup
+class CheckProviderSetup
 {
     /**
      * Handle an incoming request.
@@ -15,9 +15,9 @@ class EnsureProviderSetup
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = auth()->user();
-        if($user->role === 'provider' && !$user->provider){
-            return redirect()->route('setup.provider');
+         $provider = auth()->user()->provider;
+        if($provider){
+            return abort(403);
         }
         return $next($request);
     }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taskify - Complete Your Profile</title>
+    <title>Taskify - Provider Setup</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -31,7 +31,7 @@
                             <strong>Choose File</strong> <span id="profileFileName">No file chosen</span>
                         </label>
                     </div>
-                @error('profile')
+                @error('profile_image')
                     <span style="color: #ff7e5f">{{ $message }} </span>
                 @enderror
                 </div>
@@ -62,16 +62,7 @@
                     <span style="color: #ff7e5f">{{ $message }} </span>
                     @enderror
                 </div>
-                
-                <!-- Hourly and Skills -->
-                <div class="mb-4">
-                        <label for="skills" class="form-label">Skills</label>
-                        <input type="text" class="form-control" id="skills" name="skills" placeholder="E.g., Plumbing, Carpentry">
-                    @error('skills')
-                    <span style="color: #ff7e5f">{{ $message }} </span>
-                    @enderror
-                </div>
-                
+                            
                 <!-- Full Address -->
                 <div class="mb-4">
                     <label for="fullAddress" class="form-label">Full Address</label>

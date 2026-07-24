@@ -1,4 +1,4 @@
-@extends('layouts/master-layout')
+@extends('layouts.user')
 
 @section('content')
  <section class="hero-section" id="home">

@@ -29,6 +29,13 @@ class ProviderController extends Controller
        // Insert into database
        $provider =  Provider::create($data);
 
-    return redirect()->back()->with('success', 'Profile created successfully!');
+    return redirect()->route('provider.dashboard');
+    }
+
+    public function ProviderDashboard(){
+        return view('provider/dashboard');
+    }
+    public function UserDashboard(){
+        return view('provider/dashboard');
     }
 }

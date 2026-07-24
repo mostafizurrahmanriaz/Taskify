@@ -17,11 +17,9 @@ return new class extends Migration
             $table->string('phone');
             $table->string('profile_image');
             $table->integer('experience');
-            $table->string('skills');
             $table->string('district');
             $table->string('address');
             $table->string('bio');
-
         });
     }
 

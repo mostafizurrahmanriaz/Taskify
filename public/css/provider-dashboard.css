@@ -1,0 +1,516 @@
+/* ========================================
+   GLOBAL STYLES & VARIABLES
+======================================== */
+
+:root {
+    --primary-color: #FF8A80;
+    --primary-hover: #FF7268;
+    --primary-light: rgba(255, 107, 107, 0.12);
+    --sidebar-bg: rgba(255, 107, 107, 0.12);
+    --sidebar-text: #2c3e50;
+    --sidebar-active: #FF8A80;
+    --bg-light: #FFF5F3;
+    --card-bg: #ffffff;
+    --text-dark: #2c3e50;
+    --text-heading: #1a1a1a;
+    --text-muted: #666666;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --border-radius: 20px;
+    --card-radius: 16px;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    overflow-x: hidden;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    color: var(--deep-navy);
+    line-height: 1.2;
+}
+
+/* ========================================
+   DASHBOARD WRAPPER
+======================================== */
+
+.dashboard-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ========================================
+   SIDEBAR STYLES - GLASSMORPHISM
+======================================== */
+
+.sidebar {
+    width: 260px;
+    background: rgba(255, 107, 107, 0.12);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(0, 0, 0, 0.05);
+    color: var(--sidebar-text);
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1000;
+    transition: var(--transition);
+}
+
+.sidebar-header {
+    padding: 24px 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.sidebar-logo {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0;
+    text-align: center;
+    letter-spacing: -0.5px;
+}
+
+.logo-task {
+    color: var(--text-heading);
+}
+
+.logo-ify {
+    color: var(--primary-color);
+}
+
+.sidebar-nav {
+    padding: 20px 0;
+}
+
+.sidebar-nav .nav {
+    gap: 4px;
+    padding: 0 12px;
+}
+
+.sidebar-nav .nav-item {
+    margin-bottom: 4px;
+}
+
+.sidebar-nav .nav-link {
+    color: var(--sidebar-text);
+    padding: 14px 16px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.sidebar-nav .nav-link i {
+    font-size: 20px;
+    width: 24px;
+    text-align: center;
+}
+
+.sidebar-nav .nav-link:hover {
+    background-color: rgba(255, 138, 128, 0.15);
+    color: var(--primary-color);
+}
+
+.sidebar-nav .nav-link.active {
+    background-color: var(--sidebar-active);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(255, 138, 128, 0.3);
+}
+
+/* ========================================
+   MAIN CONTENT AREA
+======================================== */
+
+.main-content {
+    margin-left: 260px;
+    flex: 1;
+    padding: 30px;
+    background-color: var(--bg-light);
+    min-height: 100vh;
+}
+
+/* ========================================
+   CONTENT HEADER
+======================================== */
+
+.content-header {
+    margin-bottom: 30px;
+}
+
+.page-title {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--text-heading);
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+/* ========================================
+   STATS SECTION
+======================================== */
+
+.stats-section {
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background-color: var(--card-bg);
+    border-radius: var(--card-radius);
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.stat-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px);
+}
+
+.stat-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #FF8A80 0%, #FFB3AE 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.stat-icon i {
+    font-size: 28px;
+    color: #ffffff;
+}
+
+.stat-content {
+    flex: 1;
+}
+
+.stat-number {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--text-heading);
+    margin: 0 0 4px 0;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.stat-label {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin: 0;
+    font-weight: 500;
+}
+
+/* ========================================
+   BOOKINGS SECTION
+======================================== */
+
+.bookings-section {
+    margin-bottom: 40px;
+}
+
+.bookings-card {
+    background-color: var(--card-bg);
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.bookings-header {
+    padding: 24px 28px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.bookings-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-heading);
+    margin: 0;
+    letter-spacing: -0.3px;
+}
+
+.bookings-list {
+    padding: 0;
+}
+
+.booking-item {
+    padding: 20px 28px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: var(--transition);
+}
+
+.booking-item:last-child {
+    border-bottom: none;
+}
+
+.booking-item:hover {
+    background-color: rgba(255, 138, 128, 0.04);
+}
+
+.booking-info {
+    flex: 1;
+}
+
+.booking-service {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-heading);
+    margin: 0 0 6px 0;
+}
+
+.booking-date {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 400;
+}
+
+.booking-date i {
+    font-size: 14px;
+}
+
+.booking-status {
+    flex-shrink: 0;
+}
+
+/* Status Badges */
+.badge {
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-pending {
+    background-color: #FFF3CD;
+    color: #FF9800;
+}
+
+.status-accepted {
+    background-color: #D4EDDA;
+    color: #28A745;
+}
+
+.status-completed {
+    background-color: #D1ECF1;
+    color: #17A2B8;
+}
+
+/* ========================================
+   BOOKINGS FOOTER & BUTTON
+======================================== */
+
+.bookings-footer {
+    padding: 24px 28px;
+    text-align: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.btn-primary-custom {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 30px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--primary-hover);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(255, 138, 128, 0.4);
+}
+
+.btn-primary-custom i {
+    font-size: 16px;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+======================================== */
+
+/* Tablet Screens */
+@media (max-width: 992px) {
+    .sidebar {
+        width: 220px;
+    }
+    
+    .main-content {
+        margin-left: 220px;
+        padding: 24px;
+    }
+    
+    .stat-card {
+        padding: 20px;
+    }
+    
+    .stat-icon {
+        width: 56px;
+        height: 56px;
+    }
+    
+    .stat-icon i {
+        font-size: 24px;
+    }
+    
+    .stat-number {
+        font-size: 30px;
+    }
+}
+
+/* Mobile Screens */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        background: rgba(255, 107, 107, 0.08);
+    }
+    
+    .sidebar-nav .nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+    }
+    
+    .sidebar-nav .nav-link span {
+        display: none;
+    }
+    
+    .sidebar-nav .nav-link {
+        justify-content: center;
+        padding: 12px;
+        width: 48px;
+        height: 48px;
+    }
+    
+    .main-content {
+        margin-left: 0;
+        padding: 20px;
+    }
+    
+    .page-title {
+        font-size: 28px;
+    }
+    
+    .stat-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 24px;
+    }
+    
+    .stat-content {
+        text-align: center;
+    }
+    
+    .booking-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px 20px;
+    }
+    
+    .booking-status {
+        width: 100%;
+    }
+    
+    .badge {
+        display: inline-block;
+    }
+    
+    .bookings-header,
+    .bookings-footer {
+        padding: 20px;
+    }
+}
+
+/* Small Mobile Screens */
+@media (max-width: 576px) {
+    .main-content {
+        padding: 16px;
+    }
+    
+    .page-title {
+        font-size: 24px;
+    }
+    
+    .stat-number {
+        font-size: 28px;
+    }
+    
+    .stat-label {
+        font-size: 14px;
+    }
+    
+    .bookings-title {
+        font-size: 18px;
+    }
+    
+    .booking-service {
+        font-size: 15px;
+    }
+    
+    .btn-primary-custom {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ========================================
+   SCROLLBAR STYLING
+======================================== */
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: rgba(255, 138, 128, 0.05);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 138, 128, 0.3);
+    border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 138, 128, 0.5);
+}

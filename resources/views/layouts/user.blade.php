@@ -43,7 +43,7 @@
                 </ul>
                 
                 <div class="d-flex gap-2">
-                    <button class="btn btn-login">Login</button>
+                    <a href="{{ route('login') }}" style="color: #343a40"><button class="btn btn-register">Login</button></a> 
                     <a href="{{ route('signUp') }}" style="color: #343a40"><button class="btn btn-register">Register</button></a> 
                 </div>
             </div>
