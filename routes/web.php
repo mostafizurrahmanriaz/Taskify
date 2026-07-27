@@ -4,10 +4,12 @@
 use App\Http\Controllers\Provider\ProviderController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AuthController;
+use App\Models\Service;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('home/index');
+    $services = Service::where('status', 'Active')->with('provider')->take(6)->get();
+    return view('home/index', compact('services'));
 })->name('home');
 
 //authentication

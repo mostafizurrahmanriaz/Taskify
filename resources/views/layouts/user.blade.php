@@ -37,14 +37,22 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#services">Services</a>
                     </li>
+                    @if (Auth::check())
+                        <a class="nav-link" href="#">My Bookings</a>
+                    @else
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Become a Pro</a>
+                        <a class="nav-link" href="{{ route('signUp') }}">Become a Pro</a>
                     </li>
+                    @endif
                 </ul>
                 
                 <div class="d-flex gap-2">
+                    @if (Auth::check())
+                    <a href="{{ route('logout') }}" style="color: #343a40"><button class="btn btn-register">Logout</button></a> 
+                    @else
                     <a href="{{ route('login') }}" style="color: #343a40"><button class="btn btn-register">Login</button></a> 
                     <a href="{{ route('signUp') }}" style="color: #343a40"><button class="btn btn-register">Register</button></a> 
+                    @endif
                 </div>
             </div>
         </div>

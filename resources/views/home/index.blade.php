@@ -124,97 +124,50 @@
         <div class="container">
             <h2 class="section-title">Featured Services</h2>
             
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="service-card">
-                        <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop" alt="House Cleaning" class="service-image">
-                        <div class="service-body">
-                            <h3 class="service-title">Professional House Cleaning</h3>
-                            <div class="service-location">
-                                <i class="bi bi-geo-alt"></i>
-                                <span>New York, NY</span>
-                            </div>
-                            <div class="service-price">$80/hr</div>
-                            <button class="btn-details">View Details</button>
-                        </div>
-                    </div>
+<div class="row">
+    @foreach ($services as $service)
+    <div class="col-lg-4 col-md-6">
+        <div class="service-card">
+            <img src="{{ asset('/storage/images/service/'.$service->image) }}" alt="{{ $service->title }}" class="service-image">
+            <div class="service-body">
+                <h3 class="service-title">{{ $service->title }}</h3>
+                <div class="service-location">
+                    <i class="bi bi-geo-alt"></i>
+                    <span>{{ $service->provider->district }}</span>
                 </div>
-                
-                <div class="col-lg-4 col-md-6">
-                    <div class="service-card">
-                        <img src="https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=400&h=300&fit=crop" alt="Plumbing Service" class="service-image">
-                        <div class="service-body">
-                            <h3 class="service-title">Expert Plumbing Repair</h3>
-                            <div class="service-location">
-                                <i class="bi bi-geo-alt"></i>
-                                <span>Los Angeles, CA</span>
-                            </div>
-                            <div class="service-price">$120/hr</div>
-                            <button class="btn-details">View Details</button>
-                        </div>
+
+                <div class="service-rating">
+                    @php
+                        $avg = $service->reviews_avg_rating ?? 0;
+                        $full = floor($avg);
+                        $half = ($avg - $full) >= 0.5;
+                    @endphp
+                    <div class="stars">
+                        @for ($i = 1; $i <= 5; $i++)
+                            @if ($i <= $full)
+                                <i class="bi bi-star-fill"></i>
+                            @elseif ($half && $i == $full + 1)
+                                <i class="bi bi-star-half"></i>
+                            @else
+                                <i class="bi bi-star"></i>
+                            @endif
+                        @endfor
                     </div>
+                    @if ($service->reviews_count > 0)
+                        <span class="rating-score">{{ number_format($avg, 1) }}</span>
+                        <span class="rating-count">({{ $service->reviews_count }})</span>
+                    @else
+                        <span class="rating-count">No reviews yet</span>
+                    @endif
                 </div>
-                
-                <div class="col-lg-4 col-md-6">
-                    <div class="service-card">
-                        <img src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=400&h=300&fit=crop" alt="Electrician Service" class="service-image">
-                        <div class="service-body">
-                            <h3 class="service-title">Licensed Electrician</h3>
-                            <div class="service-location">
-                                <i class="bi bi-geo-alt"></i>
-                                <span>Chicago, IL</span>
-                            </div>
-                            <div class="service-price">$95/hr</div>
-                            <button class="btn-details">View Details</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6">
-                    <div class="service-card">
-                        <img src="https://images.unsplash.com/photo-1597855040071-57071cd49c78?w=400&h=300&fit=crop" alt="Carpentry Service" class="service-image">
-                        <div class="service-body">
-                            <h3 class="service-title">Custom Carpentry Work</h3>
-                            <div class="service-location">
-                                <i class="bi bi-geo-alt"></i>
-                                <span>Houston, TX</span>
-                            </div>
-                            <div class="service-price">$85/hr</div>
-                            <button class="btn-details">View Details</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6">
-                    <div class="service-card">
-                        <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400&h=300&fit=crop" alt="Painting Service" class="service-image">
-                        <div class="service-body">
-                            <h3 class="service-title">Interior Painting Service</h3>
-                            <div class="service-location">
-                                <i class="bi bi-geo-alt"></i>
-                                <span>Phoenix, AZ</span>
-                            </div>
-                            <div class="service-price">$70/hr</div>
-                            <button class="btn-details">View Details</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6">
-                    <div class="service-card">
-                        <img src="https://images.unsplash.com/photo-1558904541-efa843a96f01?w=400&h=300&fit=crop" alt="Garden Maintenance" class="service-image">
-                        <div class="service-body">
-                            <h3 class="service-title">Garden Maintenance</h3>
-                            <div class="service-location">
-                                <i class="bi bi-geo-alt"></i>
-                                <span>Miami, FL</span>
-                            </div>
-                            <div class="service-price">$65/hr</div>
-                            <button class="btn-details">View Details</button>
-                        </div>
-                    </div>
-                </div>
+
+                <div class="service-price">৳ {{ $service->price }}</div>
+                <button class="btn-details">View Details</button>
             </div>
+        </div>
+    </div>
+    @endforeach
+</div>
         </div>
     </section>
 
@@ -264,3 +217,29 @@
         </div>
     </section>
 @endsection
+
+@push('style')
+    <style>
+        .service-rating {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 4px 0 10px;
+}
+.service-rating .stars {
+    color: #f0997b;
+    font-size: 14px;
+    display: flex;
+    gap: 2px;
+}
+.service-rating .rating-score {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+}
+.service-rating .rating-count {
+    font-size: 12px;
+    color: #6b7280;
+}
+    </style>
+@endpush

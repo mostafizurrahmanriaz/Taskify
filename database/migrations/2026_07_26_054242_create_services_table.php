@@ -18,7 +18,9 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->decimal('price', 10, 2);
-            $table->string('image');
+            $table->decimal('reviews_avg_rating');
+            $table->integer('reviews_count');
+
             $table->string('status');
             $table->timestamps();
         });

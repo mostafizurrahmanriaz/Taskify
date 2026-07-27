@@ -46,7 +46,7 @@ class AuthController extends Controller
                 }
                 return redirect('/provider/dashboard');
             }
-            return redirect()->route('/dashborad');
+            return redirect()->route('home');
         }
           return back()->with('error', 'Invalid credentials');
     }
@@ -54,7 +54,6 @@ class AuthController extends Controller
     public function logOut(){
         Auth::logout();
         return redirect()->route('home');
-
     }
 
 }

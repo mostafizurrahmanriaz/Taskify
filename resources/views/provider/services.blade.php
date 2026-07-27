@@ -23,6 +23,11 @@
         </tr>
       </thead>
       <tbody>
+        @if(auth()->user()->provider->services->count() == 0)
+        <tr>
+          <td>No services found.</td>
+        </tr>
+        @else
         @foreach ($services as $service)
         <tr>
           <td class="service-name">{{ $service->title }}</td>
@@ -41,6 +46,7 @@
           </td>
         </tr>
         @endforeach
+        @endif
       </tbody>
     </table>
   </div>
