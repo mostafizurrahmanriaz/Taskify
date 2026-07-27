@@ -34,7 +34,11 @@ Route::middleware('auth')->group(function(){
         //services
         Route::get('/provider/services', [ServiceController::class, 'index'])->name('provider.services');   
         Route::get('/provider/services/create', [ServiceController::class, 'create'])->name('provider.services.create'); 
-         Route::post('/provider/services/store', [ServiceController::class, 'store'])->name('provider.services.store');
+        Route::post('/provider/services/store', [ServiceController::class, 'store'])->name('provider.services.store');
+        Route::get('/provider/services/edit/{id}', [ServiceController::class, 'edit'])->name('provider.services.edit'); 
+        Route::post('/provider/services/update/{id}', [ServiceController::class, 'update'])->name('provider.services.update');
+        Route::get('/provider/services/delete/{id}', [ServiceController::class, 'destroy'])->name('provider.services.delete');
+
    
         });
     });
@@ -43,5 +47,8 @@ Route::middleware('auth')->group(function(){
         
         Route::get('/user/dashboard', [ProviderController::class, 'UserDashboard'])->name('user.dashboard');
 
+
+        //logout
+        Route::get('/logout', [AuthController::class, 'logOut'])->name('logout');
 
 });

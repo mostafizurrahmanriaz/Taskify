@@ -97,7 +97,7 @@
           <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
           <path d="M10 17l5-5-5-5M15 12H3"></path>
         </svg>
-        <span class="nav-link__label">Logout</span>
+       <span class="nav-link__label" onclick="window.location.href='/logout'">Logout</span>
       </a>
     </div>
   </nav>

@@ -4,10 +4,10 @@
 <div class="panel">
   <div class="panel-header">
     <h1>My Services</h1>
-    <button class="add-btn" type="button">
+    <a class="add-btn" type="button" href="{{ route('provider.services.create') }}">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       Add New Service
-    </button>
+    </a>
   </div>
 
   <!-- Desktop table -->
@@ -23,54 +23,24 @@
         </tr>
       </thead>
       <tbody>
+        @foreach ($services as $service)
         <tr>
-          <td class="service-name">Plumbing Service</td>
-          <td class="category">Plumbing</td>
-          <td class="price">$25 <span>/ hour</span></td>
-          <td><span class="status">Active</span></td>
+          <td class="service-name">{{ $service->title }}</td>
+          <td class="category">{{ $service->category->name }}</td>
+          <td class="price">৳ {{ $service->price }}</td>
+          <td><span class="status">{{ $service->status }}</span></td>
           <td>
             <div class="actions">
-              <button class="icon-btn edit" aria-label="Edit Plumbing Service">
+              <a class="icon-btn edit" aria-label="Edit Plumbing Service" href="{{ route('provider.services.edit', $service->id) }}">
                 <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg>
-              </button>
-              <button class="icon-btn delete" aria-label="Delete Plumbing Service">
+              </a>
+              <a class="icon-btn delete" aria-label="Delete Plumbing Service" href="{{ route('provider.services.delete',  $service->id) }}">
                 <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
-              </button>
+              </a>
             </div>
           </td>
         </tr>
-        <tr>
-          <td class="service-name">Electrical Repair</td>
-          <td class="category">Electrical</td>
-          <td class="price">$40 <span>/ hour</span></td>
-          <td><span class="status">Active</span></td>
-          <td>
-            <div class="actions">
-              <button class="icon-btn edit" aria-label="Edit Electrical Repair">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg>
-              </button>
-              <button class="icon-btn delete" aria-label="Delete Electrical Repair">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
-              </button>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td class="service-name">AC Repair</td>
-          <td class="category">Cleaning</td>
-          <td class="price">$45 <span>/ hour</span></td>
-          <td><span class="status">Active</span></td>
-          <td>
-            <div class="actions">
-              <button class="icon-btn edit" aria-label="Edit AC Repair">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg>
-              </button>
-              <button class="icon-btn delete" aria-label="Delete AC Repair">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
-              </button>
-            </div>
-          </td>
-        </tr>
+        @endforeach
       </tbody>
     </table>
   </div>

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\ServiceRequest;
 use App\Models\Category;
 use App\Models\Service;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ServiceController extends Controller
 {
@@ -30,16 +32,10 @@ class ServiceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ServiceRequest $request)
     {
         
-       $data = $request->validate([
-        'title' => 'required|string|max:255',
-        'description' => 'required',
-        'price' => 'required|numeric',
-        'category_id' => 'required',
-        'image' => 'required|mimes:jpeg,jpg,png,svg|max:3000'
-        ]);
+       $data = $request->validated();
 
         $provider = auth()->user()->provider;
 
@@ -49,7 +45,7 @@ class ServiceController extends Controller
 
             $data['image'] = $rename_img;
             $data['provider_id'] = $provider->id;
-            $data['status'] = 'active';
+            $data['status'] = 'Active';
         }
         Service::create($data);
         return redirect()->route('provider.services');
@@ -68,15 +64,33 @@ class ServiceController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $service = Service::with('category')->find($id);
+        $categoreis = Category::all();
+        return view('provider.services__edit', compact('service', 'categoreis'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ServiceRequest $request, string $id)
     {
-        //
+        $service = Service::find($id);
+        $data = $request->validated();
+        $provider = auth()->user()->provider;
+        if($request->hasFile('image')){
+            //delete old image
+            if($service->image && Storage::disk('public')->exists('images/service/'.$service->image )){
+                Storage::disk('public')->delete('images/service/'.$service->image);
+            }
+            // Upload new image
+            $new_img = time().'.'. $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->storeAs('images/service', $new_img, 'public');
+            $data['image'] = $new_img;
+            $data['provider_id'] = $provider->id;
+        }
+            Service::find($id)->update($data);
+            return redirect()->route('provider.services');
+
     }
 
     /**
@@ -84,6 +98,9 @@ class ServiceController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $service = Service::find($id);
+        Storage::disk('public')->delete('images/service/' . $service->image);
+        $service->delete();
+        return redirect()->route('provider.services');
     }
 }
