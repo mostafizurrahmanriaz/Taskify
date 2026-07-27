@@ -9,5 +9,8 @@ class Provider extends Model
     protected $guarded = [];
     public $timestamps = false;
 
+    public function services(){
+        return $this->hasMany(Service::class);
+    }
     
 }

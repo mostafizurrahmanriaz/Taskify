@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\Provider\ProviderController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,7 +30,12 @@ Route::middleware('auth')->group(function(){
 
         // Protected Routes (setup required)
         Route::middleware('provider.setup')->group(function(){
-        Route::get('/provider/dashboard', [ProviderController::class, 'ProviderDashboard'])->name('provider.dashboard');        
+        Route::get('/provider/dashboard', [ProviderController::class, 'ProviderDashboard'])->name('provider.dashboard');    
+        //services
+        Route::get('/provider/services', [ServiceController::class, 'index'])->name('provider.services');   
+        Route::get('/provider/services/create', [ServiceController::class, 'create'])->name('provider.services.create'); 
+         Route::post('/provider/services/store', [ServiceController::class, 'store'])->name('provider.services.store');
+   
         });
     });
 

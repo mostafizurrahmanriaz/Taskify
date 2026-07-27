@@ -1,227 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Provider Dashboard - Taskify</title>
-    
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="/css/provider-dashboard.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard — Taskify Provider</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/css/provider-dashboard.css" />
+@stack('style')
 </head>
 <body>
-    
-    <div class="dashboard-wrapper">
-        
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h4 class="sidebar-logo"><span class="logo-task">Task</span><span class="logo-ify">ify</span></h4>
-            </div>
-            
-            <nav class="sidebar-nav">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#dashboard">
-                            <i class="bi bi-speedometer2"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#my-services">
-                            <i class="bi bi-briefcase"></i>
-                            <span>My Services</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#add-service">
-                            <i class="bi bi-plus-circle"></i>
-                            <span>Add Service</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#bookings">
-                            <i class="bi bi-calendar-check"></i>
-                            <span>Bookings</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#profile">
-                            <i class="bi bi-person"></i>
-                            <span>Profile</span>
-                        </a>
-                    </li>
-                    <li class="nav-item mt-auto">
-                        <a class="nav-link" href="#logout">
-                            <i class="bi bi-box-arrow-right"></i>
-                            <span>Logout</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </aside>
-        
-        <!-- Main Content -->
-        <main class="main-content">
-            
-            <!-- Header -->
-            <header class="content-header">
-                <h2 class="page-title">Dashboard</h2>
-            </header>
-            
-            <!-- Stats Cards Section -->
-            <section class="stats-section">
-                <div class="row g-4">
-                    
-                    <!-- Total Services Card -->
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="bi bi-briefcase-fill"></i>
-                            </div>
-                            <div class="stat-content">
-                                <h3 class="stat-number">12</h3>
-                                <p class="stat-label">Total Services</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Total Bookings Card -->
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="bi bi-calendar-check-fill"></i>
-                            </div>
-                            <div class="stat-content">
-                                <h3 class="stat-number">25</h3>
-                                <p class="stat-label">Total Bookings</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Completed Card -->
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="bi bi-check-circle-fill"></i>
-                            </div>
-                            <div class="stat-content">
-                                <h3 class="stat-number">15</h3>
-                                <p class="stat-label">Completed</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div>
-            </section>
-            
-            <!-- Recent Bookings Section -->
-            <section class="bookings-section">
-                <div class="bookings-card">
-                    
-                    <div class="bookings-header">
-                        <h4 class="bookings-title">Recent Bookings</h4>
-                    </div>
-                    
-                    <div class="bookings-list">
-                        
-                        <!-- Booking Item 1 -->
-                        <div class="booking-item">
-                            <div class="booking-info">
-                                <h5 class="booking-service">Plumbing Repair</h5>
-                                <p class="booking-date">
-                                    <i class="bi bi-calendar3"></i>
-                                    May 12, 2026
-                                </p>
-                            </div>
-                            <div class="booking-status">
-                                <span class="badge status-pending">Pending</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Booking Item 2 -->
-                        <div class="booking-item">
-                            <div class="booking-info">
-                                <h5 class="booking-service">Electrical Installation</h5>
-                                <p class="booking-date">
-                                    <i class="bi bi-calendar3"></i>
-                                    May 10, 2026
-                                </p>
-                            </div>
-                            <div class="booking-status">
-                                <span class="badge status-accepted">Accepted</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Booking Item 3 -->
-                        <div class="booking-item">
-                            <div class="booking-info">
-                                <h5 class="booking-service">AC Maintenance</h5>
-                                <p class="booking-date">
-                                    <i class="bi bi-calendar3"></i>
-                                    May 8, 2026
-                                </p>
-                            </div>
-                            <div class="booking-status">
-                                <span class="badge status-completed">Completed</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Booking Item 4 -->
-                        <div class="booking-item">
-                            <div class="booking-info">
-                                <h5 class="booking-service">Home Cleaning</h5>
-                                <p class="booking-date">
-                                    <i class="bi bi-calendar3"></i>
-                                    May 5, 2026
-                                </p>
-                            </div>
-                            <div class="booking-status">
-                                <span class="badge status-completed">Completed</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Booking Item 5 -->
-                        <div class="booking-item">
-                            <div class="booking-info">
-                                <h5 class="booking-service">Carpentry Work</h5>
-                                <p class="booking-date">
-                                    <i class="bi bi-calendar3"></i>
-                                    May 3, 2026
-                                </p>
-                            </div>
-                            <div class="booking-status">
-                                <span class="badge status-accepted">Accepted</span>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    
-                    <div class="bookings-footer">
-                        <a href="#all-bookings" class="btn btn-primary-custom">
-                            View All Bookings
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                    
-                </div>
-            </section>
-            
-        </main>
-        
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header class="mobile-topbar">
+  <button class="hamburger-btn" type="button" id="menuToggle" aria-expanded="false" aria-controls="primarySidebar" aria-label="Open navigation menu">
+    <svg class="hamburger-btn__icon hamburger-btn__icon--open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M3 6h18M3 12h18M3 18h18"></path>
+    </svg>
+    <svg class="hamburger-btn__icon hamburger-btn__icon--close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M6 6l12 12M18 6L6 18"></path>
+    </svg>
+  </button>
+  <span class="mobile-topbar__brand">Taskify</span>
+</header>
+
+<div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
+
+<div class="app-shell">
+
+  <!-- ==================== SIDEBAR NAVIGATION ==================== -->
+  <nav class="sidebar" aria-label="Primary" id="primarySidebar">
+    <div class="sidebar__top">
+      <div class="sidebar__brand">Taskify</div>
+      <button class="sidebar__close-btn" type="button" id="menuClose" aria-label="Close navigation menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </button>
     </div>
-    
-    <!-- Bootstrap 5 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+
+    <ul class="sidebar__nav">
+      <li>
+        <a class="nav-link" href="{{ route('provider.dashboard') }}" aria-current="page">
+          <svg class="nav-link__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="7" height="9" rx="1.5"></rect>
+            <rect x="14" y="3" width="7" height="5" rx="1.5"></rect>
+            <rect x="14" y="12" width="7" height="9" rx="1.5"></rect>
+            <rect x="3" y="16" width="7" height="5" rx="1.5"></rect>
+          </svg>
+          <span class="nav-link__label">Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" href="{{ route('provider.services') }}">
+          <svg class="nav-link__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="7" width="18" height="13" rx="2"></rect>
+            <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+          <span class="nav-link__label">My Services</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" href="{{ route('provider.services.create') }}">
+          <svg class="nav-link__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M12 8v8M8 12h8"></path>
+          </svg>
+          <span class="nav-link__label">Add Service</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" href="#">
+          <svg class="nav-link__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="17" rx="2"></rect>
+            <path d="M3 9h18M8 2v4M16 2v4"></path>
+          </svg>
+          <span class="nav-link__label">Bookings</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" href="#">
+          <svg class="nav-link__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path>
+          </svg>
+          <span class="nav-link__label">Profile</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar__logout-wrap">
+      <a class="nav-link" href="#">
+        <svg class="nav-link__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+          <path d="M10 17l5-5-5-5M15 12H3"></path>
+        </svg>
+        <span class="nav-link__label">Logout</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main class="main" id="main-content">
+    @yield('content')
+  </main>
+</div>
+
+
+<script>
+  (function () {
+    var sidebar = document.getElementById('primarySidebar');
+    var backdrop = document.getElementById('sidebarBackdrop');
+    var openBtn = document.getElementById('menuToggle');
+    var closeBtn = document.getElementById('menuClose');
+    var mobileQuery = window.matchMedia('(max-width: 767px)');
+
+    function focusableItems() {
+      return sidebar.querySelectorAll('a[href], button:not([disabled])');
+    }
+
+    function onKeydown(e) {
+      if (e.key === 'Escape') {
+        closeDrawer();
+        return;
+      }
+      if (e.key === 'Tab') {
+        var items = focusableItems();
+        if (!items.length) return;
+        var first = items[0];
+        var last = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+
+    function openDrawer() {
+      sidebar.classList.add('is-open');
+      backdrop.classList.add('is-visible');
+      openBtn.setAttribute('aria-expanded', 'true');
+      sidebar.removeAttribute('inert');
+      document.body.classList.add('no-scroll');
+      document.addEventListener('keydown', onKeydown);
+      if (closeBtn) closeBtn.focus();
+    }
+
+    function closeDrawer(options) {
+      var returnFocus = !options || options.returnFocus !== false;
+      sidebar.classList.remove('is-open');
+      backdrop.classList.remove('is-visible');
+      openBtn.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('no-scroll');
+      document.removeEventListener('keydown', onKeydown);
+      if (mobileQuery.matches) {
+        sidebar.setAttribute('inert', '');
+      }
+      if (returnFocus) openBtn.focus();
+    }
+
+    openBtn.addEventListener('click', function () {
+      if (sidebar.classList.contains('is-open')) {
+        closeDrawer();
+      } else {
+        openDrawer();
+      }
+    });
+
+    closeBtn.addEventListener('click', function () {
+      closeDrawer();
+    });
+
+    backdrop.addEventListener('click', function () {
+      closeDrawer();
+    });
+
+    sidebar.querySelectorAll('.nav-link').forEach(function (link) {
+      link.addEventListener('click', function () {
+        if (mobileQuery.matches) closeDrawer({ returnFocus: false });
+      });
+    });
+
+    function syncForViewport() {
+      if (mobileQuery.matches) {
+        if (!sidebar.classList.contains('is-open')) {
+          sidebar.setAttribute('inert', '');
+        }
+      } else {
+        sidebar.removeAttribute('inert');
+        sidebar.classList.remove('is-open');
+        backdrop.classList.remove('is-visible');
+        openBtn.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('no-scroll');
+      }
+    }
+
+    syncForViewport();
+    mobileQuery.addEventListener('change', syncForViewport);
+  })();
+</script>
 </body>
 </html>

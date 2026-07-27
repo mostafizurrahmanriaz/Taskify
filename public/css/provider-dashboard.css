@@ -1,516 +1,975 @@
-/* ========================================
-   GLOBAL STYLES & VARIABLES
-======================================== */
+/* ==========================================================================
+   Taskify Provider Dashboard — Token-Driven Stylesheet
+   Tokens sourced from DESIGN.md. Derived/inferred tokens are marked INFERRED
+   and logged in PROVIDER-DASHBOARD-SPEC.md §0.
+   ========================================================================== */
 
 :root {
-    --primary-color: #FF8A80;
-    --primary-hover: #FF7268;
-    --primary-light: rgba(255, 107, 107, 0.12);
-    --sidebar-bg: rgba(255, 107, 107, 0.12);
-    --sidebar-text: #2c3e50;
-    --sidebar-active: #FF8A80;
-    --bg-light: #FFF5F3;
-    --card-bg: #ffffff;
-    --text-dark: #2c3e50;
-    --text-heading: #1a1a1a;
-    --text-muted: #666666;
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-    --border-radius: 20px;
-    --card-radius: 16px;
-    --transition: all 0.3s ease;
+  /* ---- Typography (DESIGN.md) ---- */
+  --font-family-primary: "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-size-xs: 15.2px;
+  --font-size-sm: 16px;
+  --font-size-md: 17.6px;
+  --font-size-lg: 19.2px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 20.8px;
+  --font-size-3xl: 22.4px;
+  --font-size-4xl: 24px;
+  --font-weight-base: 400;
+  --font-weight-medium: 500;   /* INFERRED — see spec §0 */
+  --font-weight-semibold: 600; /* INFERRED */
+  --font-weight-bold: 700;     /* INFERRED */
+  --line-height-base: 25.6px;
+  --line-height-tight: 1.3;    /* INFERRED, headings only */
+
+  /* ---- Color (DESIGN.md) ---- */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #334155;
+  --color-text-tertiary: #0f172a;
+  --color-text-inverse: #343a40;
+  --color-surface-base: #000000;
+  --color-surface-strong: #fefefe;
+
+  /* ---- Derived tokens (see spec §0 gap log) ---- */
+  --color-accent-primary: #ff6b6b;           /* extracted from shadow.2/3/4 */
+  --border-subtle: rgba(15, 23, 42, 0.08);   /* == shadow.1 color, reused */
+  --border-strong: rgba(15, 23, 42, 0.16);
+  --focus-ring-on-dark: #ff6b6b;             /* accent — 7.5:1 on black */
+  --focus-ring-on-light: #0f172a;            /* text.tertiary — 17.5:1 on white */
+
+  /* ---- Spacing (DESIGN.md) ---- */
+  --space-1: 5px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 14px;
+  --space-5: 16px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+
+  /* ---- Radius (DESIGN.md) ---- */
+  --radius-xs: 6px;
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 50px;
+
+  /* ---- Shadow (DESIGN.md) ---- */
+  --shadow-1: rgba(15, 23, 42, 0.08) 0px 2px 8px 0px;
+  --shadow-2: rgba(255, 107, 107, 0.25) 0px 4px 12px 0px;
+  --shadow-3: rgba(255, 107, 107, 0.3) 0px 4px 16px 0px;
+  --shadow-4: rgba(255, 107, 107, 0.4) 0px 6px 20px 0px;
+
+  /* ---- Motion (DESIGN.md) ---- */
+  --motion-instant: 150ms;
+  --motion-fast: 200ms;
+  --motion-normal: 300ms;
+  --motion-easing: cubic-bezier(0.4, 0, 0.2, 1); /* INFERRED standard easing */
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* ==========================================================================
+   Reset & base
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: var(--bg-light);
-    color: var(--text-dark);
-    overflow-x: hidden;
-}
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 700;
-    color: var(--deep-navy);
-    line-height: 1.2;
+  margin: 0;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-base);
+  line-height: var(--line-height-base);
+  background: var(--color-surface-strong);
+  color: var(--color-text-secondary);
 }
 
-/* ========================================
-   DASHBOARD WRAPPER
-======================================== */
-
-.dashboard-wrapper {
-    display: flex;
-    min-height: 100vh;
+img,
+svg {
+  display: block;
+  max-width: 100%;
 }
 
-/* ========================================
-   SIDEBAR STYLES - GLASSMORPHISM
-======================================== */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Applied to <body> via JS while the mobile drawer is open */
+.no-scroll {
+  overflow: hidden;
+}
+
+h1, h2, h3, p {
+  margin: 0;
+}
+
+/* Respect reduced motion globally */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   Skip link
+   ========================================================================== */
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: var(--space-5);
+  z-index: 100;
+  padding: var(--space-3) var(--space-5);
+  background: var(--color-surface-base);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-xs);
+  font-weight: var(--font-weight-semibold);
+  transition: top var(--motion-fast) var(--motion-easing);
+}
+
+.skip-link:focus-visible {
+  top: var(--space-5);
+  outline: 3px solid var(--focus-ring-on-dark);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   App shell
+   ========================================================================== */
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  min-height: 100dvh; /* accounts for mobile browser chrome resizing */
+}
+
+/* ==========================================================================
+   Sidebar navigation (surface.base context — text.primary only)
+   ========================================================================== */
 
 .sidebar {
-    width: 260px;
-    background: rgba(255, 107, 107, 0.12);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-right: 1px solid rgba(0, 0, 0, 0.05);
-    color: var(--sidebar-text);
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
-    z-index: 1000;
-    transition: var(--transition);
+  flex: 0 0 240px;
+  background: var(--color-surface-base);
+  color: var(--color-text-primary);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6) var(--space-4);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
 }
 
-.sidebar-header {
-    padding: 24px 20px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+.sidebar__brand {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  padding: 0 var(--space-3);
+  margin-bottom: var(--space-7);
 }
 
-.sidebar-logo {
-    font-size: 28px;
-    font-weight: 800;
-    margin: 0;
-    text-align: center;
-    letter-spacing: -0.5px;
+.sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
-.logo-task {
-    color: var(--text-heading);
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 44px;
+  padding: var(--space-3) var(--space-3);
+  border-radius: var(--radius-xs);
+  color: rgba(255, 255, 255, 0.78);
+  font-weight: var(--font-weight-medium);
+  border-left: 3px solid transparent;
+  transition: background-color var(--motion-fast) var(--motion-easing),
+              color var(--motion-fast) var(--motion-easing);
 }
 
-.logo-ify {
-    color: var(--primary-color);
+.nav-link__icon {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
 }
 
-.sidebar-nav {
-    padding: 20px 0;
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text-primary);
 }
 
-.sidebar-nav .nav {
-    gap: 4px;
-    padding: 0 12px;
+.nav-link:active {
+  background: rgba(255, 255, 255, 0.14);
 }
 
-.sidebar-nav .nav-item {
-    margin-bottom: 4px;
+.nav-link:focus-visible {
+  outline: 3px solid var(--focus-ring-on-dark);
+  outline-offset: 2px;
 }
 
-.sidebar-nav .nav-link {
-    color: var(--sidebar-text);
-    padding: 14px 16px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 15px;
-    font-weight: 500;
-    transition: var(--transition);
-    text-decoration: none;
+.nav-link[aria-current="page"] {
+  background: rgba(255, 107, 107, 0.16);
+  border-left-color: var(--color-accent-primary);
+  color: var(--color-text-primary);
 }
 
-.sidebar-nav .nav-link i {
-    font-size: 20px;
-    width: 24px;
-    text-align: center;
+.sidebar__logout-wrap {
+  margin-top: auto;
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-.sidebar-nav .nav-link:hover {
-    background-color: rgba(255, 138, 128, 0.15);
-    color: var(--primary-color);
+/* ==========================================================================
+   Mobile drawer components — inert/hidden above the mobile breakpoint.
+   Made visible inside the "Mobile" media query further down.
+   ========================================================================== */
+
+.mobile-topbar,
+.hamburger-btn,
+.sidebar-backdrop,
+.sidebar__close-btn {
+  display: none;
 }
 
-.sidebar-nav .nav-link.active {
-    background-color: var(--sidebar-active);
-    color: #ffffff;
-    box-shadow: 0 2px 8px rgba(255, 138, 128, 0.3);
+.sidebar__top {
+  display: block; /* becomes a flex row only at mobile widths */
 }
 
-/* ========================================
-   MAIN CONTENT AREA
-======================================== */
+/* ==========================================================================
+   Main column
+   ========================================================================== */
 
-.main-content {
-    margin-left: 260px;
-    flex: 1;
-    padding: 30px;
-    background-color: var(--bg-light);
-    min-height: 100vh;
+.main {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding: var(--space-7) var(--space-8);
+  padding-right: max(var(--space-8), env(safe-area-inset-right));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-7);
 }
 
-/* ========================================
-   CONTENT HEADER
-======================================== */
-
-.content-header {
-    margin-bottom: 30px;
+.page-header h1 {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-tertiary);
 }
 
-.page-title {
-    font-size: 36px;
-    font-weight: 800;
-    color: var(--text-heading);
-    margin: 0;
-    letter-spacing: -0.5px;
+.page-header p {
+  margin-top: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
 }
 
-/* ========================================
-   STATS SECTION
-======================================== */
+/* ==========================================================================
+   Stat cards
+   ========================================================================== */
 
-.stats-section {
-    margin-bottom: 40px;
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
 }
 
 .stat-card {
-    background-color: var(--card-bg);
-    border-radius: var(--card-radius);
-    padding: 28px;
-    box-shadow: var(--shadow-sm);
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    height: 100%;
-    border: 1px solid rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  background: var(--color-surface-strong);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-1);
+  padding: var(--space-6);
+  min-height: 44px;
+  transition: box-shadow var(--motion-fast) var(--motion-easing),
+              transform var(--motion-fast) var(--motion-easing);
 }
 
 .stat-card:hover {
-    box-shadow: var(--shadow-md);
-    transform: translateY(-4px);
+  box-shadow: var(--shadow-2);
+  transform: translateY(-2px);
 }
 
-.stat-icon {
-    width: 64px;
-    height: 64px;
-    border-radius: 16px;
-    background: linear-gradient(135deg, #FF8A80 0%, #FFB3AE 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+.stat-card:active {
+  box-shadow: var(--shadow-1);
+  transform: translateY(0);
 }
 
-.stat-icon i {
-    font-size: 28px;
-    color: #ffffff;
+.stat-card:focus-visible {
+  outline: 3px solid var(--focus-ring-on-light);
+  outline-offset: 2px;
 }
 
-.stat-content {
-    flex: 1;
+.stat-card__icon {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: rgba(15, 23, 42, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.stat-number {
-    font-size: 36px;
-    font-weight: 800;
-    color: var(--text-heading);
-    margin: 0 0 4px 0;
-    line-height: 1;
-    letter-spacing: -1px;
+.stat-card__icon svg {
+  width: 22px;
+  height: 22px;
+  color: var(--color-text-tertiary);
 }
 
-.stat-label {
-    font-size: 15px;
-    color: var(--text-muted);
-    margin: 0;
-    font-weight: 500;
+.stat-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
 }
 
-/* ========================================
-   BOOKINGS SECTION
-======================================== */
-
-.bookings-section {
-    margin-bottom: 40px;
+.stat-card__label {
+  display: block;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
 }
 
-.bookings-card {
-    background-color: var(--card-bg);
-    border-radius: var(--card-radius);
-    box-shadow: var(--shadow-sm);
-    overflow: hidden;
-    border: 1px solid rgba(0, 0, 0, 0.04);
+.stat-card__value {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  line-height: var(--line-height-tight);
 }
 
-.bookings-header {
-    padding: 24px 28px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+/* Stat card state: disabled */
+.stat-card.is-disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
 
-.bookings-title {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--text-heading);
-    margin: 0;
-    letter-spacing: -0.3px;
+/* Stat card state: loading (skeleton) */
+.stat-card.is-loading .stat-card__icon {
+  background: var(--border-subtle);
 }
 
-.bookings-list {
-    padding: 0;
+.stat-card__skeleton-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.skeleton-line {
+  height: 12px;
+  border-radius: var(--radius-xs);
+  background: linear-gradient(
+    90deg,
+    rgba(15, 23, 42, 0.06) 25%,
+    rgba(15, 23, 42, 0.12) 37%,
+    rgba(15, 23, 42, 0.06) 63%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.skeleton-line + .skeleton-line {
+  margin-top: var(--space-2);
+}
+
+.skeleton-line--label { width: 60%; }
+.skeleton-line--value { width: 40%; height: 18px; }
+
+@keyframes shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+/* Stat card state: error */
+.stat-card.is-error .stat-card__icon {
+  background: rgba(255, 107, 107, 0.14);
+}
+
+.stat-card.is-error .stat-card__icon svg {
+  color: var(--color-accent-primary);
+}
+
+.stat-card__error-text {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.stat-card__retry {
+  margin-top: var(--space-1);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  text-decoration: underline;
+  min-height: 24px;
+}
+
+.stat-card__retry:focus-visible {
+  outline: 3px solid var(--focus-ring-on-light);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+/* ==========================================================================
+   Recent bookings panel
+   ========================================================================== */
+
+.panel {
+  background: var(--color-surface-strong);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+
+.panel__header {
+  padding: var(--space-6) var(--space-6) var(--space-4);
+}
+
+.panel__header h2 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+}
+
+.booking-list__status {
+  padding: 0 var(--space-6) var(--space-3);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
 }
 
 .booking-item {
-    padding: 20px 28px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    transition: var(--transition);
-}
-
-.booking-item:last-child {
-    border-bottom: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  border-top: 1px solid var(--border-subtle);
+  transition: background-color var(--motion-fast) var(--motion-easing);
+  min-height: 44px;
 }
 
 .booking-item:hover {
-    background-color: rgba(255, 138, 128, 0.04);
+  background: rgba(15, 23, 42, 0.03);
 }
 
-.booking-info {
-    flex: 1;
+.booking-item:active {
+  background: rgba(15, 23, 42, 0.06);
 }
 
-.booking-service {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--text-heading);
-    margin: 0 0 6px 0;
+.booking-item:focus-visible {
+  outline: 3px solid var(--focus-ring-on-light);
+  outline-offset: -3px;
 }
 
-.booking-date {
-    font-size: 14px;
-    color: var(--text-muted);
+.booking-item__info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.booking-item__service {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.booking-item__date {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-inverse);
+}
+
+/* Status badge — three variants, no color-only differentiation */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex: 0 0 auto;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+}
+
+.badge__icon {
+  width: 14px;
+  height: 14px;
+}
+
+.badge--pending {
+  background: rgba(255, 107, 107, 0.14);
+  color: var(--color-text-tertiary);
+}
+
+.badge--accepted {
+  background: rgba(15, 23, 42, 0.06);
+  color: var(--color-text-tertiary);
+}
+
+.badge--completed {
+  background: var(--color-surface-base);
+  color: var(--color-text-primary);
+}
+
+.badge--error {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--color-text-secondary);
+}
+
+/* Booking list — loading state */
+.booking-item.is-loading .booking-item__service,
+.booking-item.is-loading .booking-item__date {
+  display: none;
+}
+
+.booking-item.is-loading .booking-item__info {
+  flex: 1 1 auto;
+}
+
+/* Booking list — error row */
+.booking-item--error-row {
+  justify-content: flex-start;
+  gap: var(--space-3);
+  color: var(--color-text-secondary);
+}
+
+.booking-item--error-row .retry-btn {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  text-decoration: underline;
+  min-height: 24px;
+}
+
+.booking-item--error-row .retry-btn:focus-visible {
+  outline: 3px solid var(--focus-ring-on-light);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+/* Booking list — empty state */
+.empty-state {
+  padding: var(--space-8) var(--space-6);
+  text-align: left;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.empty-state p:first-child {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  margin-bottom: var(--space-2);
+}
+
+.empty-state p:last-child {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+/* ==========================================================================
+   States showcase (reference gallery — documents non-live states)
+   ========================================================================== */
+
+.showcase {
+  border-top: 1px dashed var(--border-strong);
+  padding-top: var(--space-7);
+}
+
+.showcase h2 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  margin-bottom: var(--space-2);
+}
+
+.showcase > p {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-6);
+  max-width: 60ch;
+}
+
+.showcase__group {
+  margin-bottom: var(--space-7);
+}
+
+.showcase__group h3 {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-inverse);
+  margin-bottom: var(--space-3);
+}
+
+.showcase__row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-5);
+}
+
+.showcase__cell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.showcase__cell-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ==========================================================================
+   Responsive — three explicit tiers, each a deliberate layout, not an
+   interpolation of the others:
+
+     Mobile   0–767px    sidebar → horizontal top bar, 1-col stats
+     Tablet   768–1023px sidebar → collapsed icon rail, 2-col stats
+     Desktop  1024px+    sidebar → full 240px column, 3-col stats  (base CSS)
+
+   Ranges are mutually exclusive (min-width + max-width pairs) so tablet
+   and mobile rules never have to fight the cascade or override each other.
+   ========================================================================== */
+
+.nav-link__label {
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------
+   Tablet: 768px – 1023px — icon-rail sidebar
+   -------------------------------------------------------------------- */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sidebar {
+    flex: 0 0 84px;
+    padding: var(--space-6) var(--space-2);
+    align-items: center;
+  }
+
+  .sidebar__brand {
+    font-size: var(--font-size-sm);
+    padding: 0;
+    margin-bottom: var(--space-6);
+  }
+
+  .nav-link {
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-1);
+    width: 100%;
+    padding: var(--space-2);
+    position: relative;
+  }
+
+  .nav-link__icon {
+    flex: 0 0 20px;
+  }
+
+  /* Label is still in the accessible name/DOM — only visually hidden,
+     and restored as a hover/focus tooltip so pointer, touch (via focus
+     on activation) and keyboard users all retain a text label. */
+  .nav-link__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .nav-link:hover .nav-link__label,
+  .nav-link:focus-visible .nav-link__label {
+    position: absolute;
+    left: calc(100% + var(--space-3));
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto;
+    height: auto;
     margin: 0;
+    padding: var(--space-2) var(--space-4);
+    clip: auto;
+    overflow: visible;
+    background: var(--color-surface-base);
+    color: var(--color-text-primary);
+    border-radius: var(--radius-xs);
+    box-shadow: var(--shadow-1);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  .nav-link[aria-current="page"] {
+    border-left: none;
+    box-shadow: inset 3px 0 0 var(--color-accent-primary);
+  }
+
+  .sidebar__logout-wrap {
+    display: flex;
+    justify-content: center;
+  }
+
+  .main {
+    padding: var(--space-6);
+  }
+
+  .booking-item {
+    padding: var(--space-4) var(--space-5);
+  }
+}
+
+/* --------------------------------------------------------------------
+   Mobile: 0px – 767px — off-canvas drawer, opened via hamburger button
+   -------------------------------------------------------------------- */
+
+@media (max-width: 767px) {
+  .app-shell {
+    display: block;
+  }
+
+  /* ---- Sticky top bar that replaces the sidebar in normal document flow ---- */
+  .mobile-topbar {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-weight: 400;
-}
+    gap: var(--space-3);
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    padding: var(--space-3) var(--space-4);
+    padding-top: max(var(--space-3), env(safe-area-inset-top));
+    padding-left: max(var(--space-4), env(safe-area-inset-left));
+    padding-right: max(var(--space-4), env(safe-area-inset-right));
+    background: var(--color-surface-base);
+    color: var(--color-text-primary);
+  }
 
-.booking-date i {
-    font-size: 14px;
-}
+  .mobile-topbar__brand {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+  }
 
-.booking-status {
-    flex-shrink: 0;
-}
-
-/* Status Badges */
-.badge {
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: capitalize;
-}
-
-.status-pending {
-    background-color: #FFF3CD;
-    color: #FF9800;
-}
-
-.status-accepted {
-    background-color: #D4EDDA;
-    color: #28A745;
-}
-
-.status-completed {
-    background-color: #D1ECF1;
-    color: #17A2B8;
-}
-
-/* ========================================
-   BOOKINGS FOOTER & BUTTON
-======================================== */
-
-.bookings-footer {
-    padding: 24px 28px;
-    text-align: center;
-    border-top: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.btn-primary-custom {
-    background-color: var(--primary-color);
-    color: #ffffff;
-    border: none;
-    padding: 12px 32px;
-    border-radius: 30px;
-    font-size: 15px;
-    font-weight: 600;
-    text-decoration: none;
-    display: inline-flex;
+  /* ---- Hamburger trigger ---- */
+  .hamburger-btn {
+    display: flex;
     align-items: center;
-    gap: 8px;
-    transition: var(--transition);
+    justify-content: center;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-xs);
+    color: var(--color-text-primary);
+    position: relative;
+  }
+
+  .hamburger-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .hamburger-btn:active {
+    background: rgba(255, 255, 255, 0.14);
+  }
+
+  .hamburger-btn:focus-visible {
+    outline: 3px solid var(--focus-ring-on-dark);
+    outline-offset: 2px;
+  }
+
+  .hamburger-btn__icon {
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    transition: opacity var(--motion-fast) var(--motion-easing),
+                transform var(--motion-fast) var(--motion-easing);
+  }
+
+  .hamburger-btn__icon--close {
+    opacity: 0;
+    transform: rotate(-90deg);
+  }
+
+  .hamburger-btn[aria-expanded="true"] .hamburger-btn__icon--open {
+    opacity: 0;
+    transform: rotate(90deg);
+  }
+
+  .hamburger-btn[aria-expanded="true"] .hamburger-btn__icon--close {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+
+  /* ---- Sidebar becomes a fixed, off-canvas drawer ---- */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    width: min(85vw, 320px);
+    height: 100vh;
+    height: 100dvh;
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--space-6) var(--space-4);
+    padding-top: max(var(--space-6), env(safe-area-inset-top));
+    padding-left: max(var(--space-4), env(safe-area-inset-left));
+    box-shadow: rgba(0, 0, 0, 0.35) 8px 0 24px 0;
+    transform: translateX(-100%);
+    transition: transform var(--motion-normal) var(--motion-easing);
+    overflow-y: auto;
+  }
+
+  .sidebar.is-open {
+    transform: translateX(0);
+  }
+
+  .sidebar__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-7);
+  }
+
+  .sidebar__brand {
+    margin-bottom: 0;
+  }
+
+  .sidebar__close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-xs);
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .sidebar__close-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .sidebar__close-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--color-text-primary);
+  }
+
+  .sidebar__close-btn:focus-visible {
+    outline: 3px solid var(--focus-ring-on-dark);
+    outline-offset: 2px;
+  }
+
+  /* ---- Backdrop shown behind the open drawer ---- */
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: rgba(15, 23, 42, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--motion-normal) var(--motion-easing);
+  }
+
+  .sidebar-backdrop.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ---- Main column ---- */
+  .main {
+    max-width: none;
+    padding: var(--space-5) var(--space-4);
+    padding-left: max(var(--space-4), env(safe-area-inset-left));
+    padding-right: max(var(--space-4), env(safe-area-inset-right));
+    padding-bottom: max(var(--space-5), env(safe-area-inset-bottom));
+    gap: var(--space-6);
+  }
+
+  .stat-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .stat-card {
+    padding: var(--space-5);
+  }
+
+  .panel__header {
+    padding: var(--space-5) var(--space-5) var(--space-3);
+  }
+
+  .booking-item {
+    flex-wrap: wrap;
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .booking-item__date {
+    order: 3;
+    flex-basis: 100%;
+  }
+
+  .showcase {
+    padding-top: var(--space-6);
+  }
 }
 
-.btn-primary-custom:hover {
-    background-color: var(--primary-hover);
-    color: #ffffff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(255, 138, 128, 0.4);
-}
+/* --------------------------------------------------------------------
+   Small phones: tighten further so nothing crowds at ~360–400px widths
+   -------------------------------------------------------------------- */
 
-.btn-primary-custom i {
-    font-size: 16px;
-}
+@media (max-width: 380px) {
+  .main {
+    padding: var(--space-4) var(--space-3);
+  }
 
-/* ========================================
-   RESPONSIVE DESIGN
-======================================== */
+  .stat-card {
+    padding: var(--space-4);
+    gap: var(--space-3);
+  }
 
-/* Tablet Screens */
-@media (max-width: 992px) {
-    .sidebar {
-        width: 220px;
-    }
-    
-    .main-content {
-        margin-left: 220px;
-        padding: 24px;
-    }
-    
-    .stat-card {
-        padding: 20px;
-    }
-    
-    .stat-icon {
-        width: 56px;
-        height: 56px;
-    }
-    
-    .stat-icon i {
-        font-size: 24px;
-    }
-    
-    .stat-number {
-        font-size: 30px;
-    }
-}
-
-/* Mobile Screens */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-        background: rgba(255, 107, 107, 0.08);
-    }
-    
-    .sidebar-nav .nav {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 8px;
-        justify-content: center;
-    }
-    
-    .sidebar-nav .nav-link span {
-        display: none;
-    }
-    
-    .sidebar-nav .nav-link {
-        justify-content: center;
-        padding: 12px;
-        width: 48px;
-        height: 48px;
-    }
-    
-    .main-content {
-        margin-left: 0;
-        padding: 20px;
-    }
-    
-    .page-title {
-        font-size: 28px;
-    }
-    
-    .stat-card {
-        flex-direction: column;
-        text-align: center;
-        padding: 24px;
-    }
-    
-    .stat-content {
-        text-align: center;
-    }
-    
-    .booking-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-        padding: 16px 20px;
-    }
-    
-    .booking-status {
-        width: 100%;
-    }
-    
-    .badge {
-        display: inline-block;
-    }
-    
-    .bookings-header,
-    .bookings-footer {
-        padding: 20px;
-    }
-}
-
-/* Small Mobile Screens */
-@media (max-width: 576px) {
-    .main-content {
-        padding: 16px;
-    }
-    
-    .page-title {
-        font-size: 24px;
-    }
-    
-    .stat-number {
-        font-size: 28px;
-    }
-    
-    .stat-label {
-        font-size: 14px;
-    }
-    
-    .bookings-title {
-        font-size: 18px;
-    }
-    
-    .booking-service {
-        font-size: 15px;
-    }
-    
-    .btn-primary-custom {
-        width: 100%;
-        justify-content: center;
-    }
-}
-
-/* ========================================
-   SCROLLBAR STYLING
-======================================== */
-
-.sidebar::-webkit-scrollbar {
-    width: 6px;
-}
-
-.sidebar::-webkit-scrollbar-track {
-    background: rgba(255, 138, 128, 0.05);
-}
-
-.sidebar::-webkit-scrollbar-thumb {
-    background: rgba(255, 138, 128, 0.3);
-    border-radius: 3px;
-}
-
-.sidebar::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 138, 128, 0.5);
+  .page-header h1 {
+    font-size: var(--font-size-3xl);
+  }
 }
