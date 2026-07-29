@@ -4,6 +4,7 @@ use App\Http\Middleware\EnsureProviderSetup;
 use App\Http\Middleware\ProviderMiddleware;
 use App\Http\Middleware\CheckProviderSetup;
 use App\Http\Middleware\EnsureLogin;
+use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -19,7 +20,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'provider' => ProviderMiddleware::class,
             'provider.setup' => EnsureProviderSetup::class,
             'provider.check' => CheckProviderSetup::class,
-            'already.login' => EnsureLogin::class
+            'check.auth' => EnsureLogin::class,
+            'valid.role' => RoleMiddleware::class,
+
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

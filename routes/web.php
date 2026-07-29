@@ -1,21 +1,20 @@
 <?php
 
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\Provider\ProviderController;
 use App\Http\Controllers\ServiceController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Models\Service;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    $services = Service::where('status', 'Active')->with('provider')->take(6)->get();
-    return view('home/index', compact('services'));
-})->name('home');
+Route::get('/', [AuthController::class, 'dashboard'])->name('dashboard')->middleware('check.auth');
 
 //authentication
-Route::view('/registration', 'auth/registration')->name('signUp')->middleware('already.login');
+Route::view('/registration', 'auth/registration')->name('signUp')->middleware('check.auth');
 Route::post('/sign-up', [AuthController::class, 'register'])->name('registerSave');
-Route::view('/login', 'auth/login')->name('login')->middleware('already.login');
+Route::view('/login', 'auth/login')->name('login')->middleware('check.auth');
 Route::post('/sign-in', [AuthController::class, 'login'])->name('loginSave');
 
 Route::middleware('auth')->group(function(){
@@ -23,7 +22,7 @@ Route::middleware('auth')->group(function(){
 
 
     //provider routes
-    Route::middleware('provider')->group(function(){
+    Route::middleware(['provider', 'valid.role:provider'])->group(function(){
         // setap page(no provider setup here)
         Route::middleware('provider.check')->group(function(){
         Route::post('/provider/setup', [ProviderController::class, 'setupProfile'])->name('save.provider');
@@ -46,8 +45,16 @@ Route::middleware('auth')->group(function(){
     });
 
         //user routes
+        Route::middleware('valid.role:user')->group(function(){
+        Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
+
+        Route::get('/user/service-details/{id}', [UserController::class, 'serviceDatails'])->name('services.details');
+        Route::post('/user/booking-service', [UserController::class, 'bookingService'])->name('save.booking');
+        Route::get('/user/my-bookings', [UserController::class, 'bookinghistory'])->name('booking.history');
+
+        });
         
-        Route::get('/user/dashboard', [ProviderController::class, 'UserDashboard'])->name('user.dashboard');
+
 
 
         //logout

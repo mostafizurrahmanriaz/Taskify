@@ -35,7 +35,5 @@ class ProviderController extends Controller
     public function ProviderDashboard(){
         return view('provider/dashboard');
     }
-    public function UserDashboard(){
-        return view('home/index');
-    }
+
 }

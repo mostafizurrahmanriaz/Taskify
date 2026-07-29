@@ -162,7 +162,7 @@
                 </div>
 
                 <div class="service-price">৳ {{ $service->price }}</div>
-                <button class="btn-details">View Details</button>
+                <button class="btn-details" onclick="window.location.href='/user/service-details/{{ $service->id }}'">View Details</button>
             </div>
         </div>
     </div>

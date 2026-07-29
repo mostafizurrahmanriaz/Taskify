@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Taskify - Find Trusted Local Services Near You</title>
     
     <!-- Bootstrap 5 CSS -->
@@ -17,6 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="/css/style.css">
+    @stack('style')
 </head>
 <body>
 
@@ -32,13 +34,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto me-4">
                     <li class="nav-item">
-                        <a class="nav-link" href="#home">Home</a>
+                        <a class="nav-link" href="{{ route('dashboard') }}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#services">Services</a>
                     </li>
                     @if (Auth::check())
-                        <a class="nav-link" href="#">My Bookings</a>
+                        <a class="nav-link" href="{{ route('booking.history') }}">My Bookings</a>
                     @else
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('signUp') }}">Become a Pro</a>
@@ -127,6 +129,7 @@
 
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    @stack('scripts')
 
 </body>
 </html>

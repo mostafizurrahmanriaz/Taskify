@@ -48,7 +48,7 @@
             <div class="mb-3">
                 <label class="mb-2">Register As</label>
                 <div class="role-select">
-                    <div class="role-card active" data-role="customer">Customer</div>
+                    <div class="role-card active" data-role="user">User</div>
                     <div class="role-card" data-role="provider">Provider</div>
                 </div>
             </div>

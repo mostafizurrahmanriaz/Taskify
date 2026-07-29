@@ -19,8 +19,10 @@ class EnsureLogin
         if($user){
             if($user->role === 'provider'){
                 return redirect()->route('provider.dashboard');
-            }else{
+            }elseif($user->role === 'user'){
                 return redirect()->route('user.dashboard');
+            }else{
+            return redirect()->route('dashboard');
             }
         }
         return $next($request);
