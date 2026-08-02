@@ -35,6 +35,12 @@
                     <span style="color: #ff7e5f">{{ $message }} </span>
                 @enderror
             </div>
+            <div class="mb-3">
+                <input type="number" class="form-control" placeholder="Email Address" name="number">
+                @error('number')
+                    <span style="color: #ff7e5f">{{ $message }} </span>
+                @enderror
+            </div>
 
             <div class="mb-3">
                 <input type="password" class="form-control" placeholder="Password" name="password">
@@ -44,7 +50,7 @@
             </div>
 
             <!-- Role Selection -->
-            <input type="hidden" name="role" id="roleInput" value="customer">
+            <input type="hidden" name="role" id="roleInput" value="user">
             <div class="mb-3">
                 <label class="mb-2">Register As</label>
                 <div class="role-select">

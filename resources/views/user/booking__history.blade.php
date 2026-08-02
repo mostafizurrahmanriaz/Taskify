@@ -21,7 +21,7 @@
   @if($booking__list->isNotEmpty())
   <div class="d-flex flex-column gap-3" id="bookingsList">
     @foreach ($booking__list as $booking)
-    <div class="booking-card" data-status="{{ $booking->status }}">
+    <div class="booking-card" data-status="{{ $booking->status }}" @if ($booking->status==='accepted') onclick="window.location.href='/user/my-bookings/{{ $booking->id  }}'" @endif>
       <img src="{{ asset('/storage/images/service/'. $booking->service->image) }}" class="booking-img" alt="{{ $booking->service->title }}">
       <div class="booking-body">
         <div>
@@ -193,17 +193,23 @@
   }
   .status-pending::before { background: #B45309; }
 
-  .status-accepted {
+  .status-completed {
     background: #DCFCE7;
     color: #15803D;
   }
-  .status-accepted::before { background: #15803D; }
+  .status-completed::before { background: #15803D; }
 
   .status-rejected {
     background: #FEE2E2;
     color: #DC2626;
   }
   .status-rejected::before { background: #DC2626; }
+
+  .status-accepted {
+    background: #4a47d330;
+    color: #4a47d3;
+  }
+  .status-accepted::before { background: #4a47d3; }
 
   /* Responsive: stack on mobile */
   @media (max-width: 576px) {

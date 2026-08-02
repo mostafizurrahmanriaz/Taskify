@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\Provider\ProviderController;
 use App\Http\Controllers\ServiceController;
@@ -31,7 +32,14 @@ Route::middleware('auth')->group(function(){
 
         // Protected Routes (setup required)
         Route::middleware('provider.setup')->group(function(){
-        Route::get('/provider/dashboard', [ProviderController::class, 'ProviderDashboard'])->name('provider.dashboard');    
+        Route::get('/provider/dashboard', [ProviderController::class, 'ProviderDashboard'])->name('provider.dashboard'); 
+        //booking   
+        Route::get('/provider/bookings', [BookingController::class, 'bookings'])->name('provider.bookings');    
+        Route::get('/provider/all-booking', [BookingController::class, 'allBooking'])->name('provider.allbooking');    
+        Route::get('/provider/bookings/{id}', [BookingController::class, 'view'])->name('provider.booking.view');    
+        Route::get('provider/booking/view__data/{id}', [BookingController::class, 'info'])->name('provider.booking.info');    
+        Route::PUT('provider/booking/{id}', [BookingController::class, 'updateBooking'])->name('provider.booking.update');    
+
         //services
         Route::get('/provider/services', [ServiceController::class, 'index'])->name('provider.services');   
         Route::get('/provider/services/create', [ServiceController::class, 'create'])->name('provider.services.create'); 
@@ -39,6 +47,7 @@ Route::middleware('auth')->group(function(){
         Route::get('/provider/services/edit/{id}', [ServiceController::class, 'edit'])->name('provider.services.edit'); 
         Route::post('/provider/services/update/{id}', [ServiceController::class, 'update'])->name('provider.services.update');
         Route::get('/provider/services/delete/{id}', [ServiceController::class, 'destroy'])->name('provider.services.delete');
+
 
    
         });
@@ -51,6 +60,7 @@ Route::middleware('auth')->group(function(){
         Route::get('/user/service-details/{id}', [UserController::class, 'serviceDatails'])->name('services.details');
         Route::post('/user/booking-service', [UserController::class, 'bookingService'])->name('save.booking');
         Route::get('/user/my-bookings', [UserController::class, 'bookinghistory'])->name('booking.history');
+        Route::get('/user/my-bookings/{id}', [UserController::class, 'view'])->name('booking.view');
 
         });
         

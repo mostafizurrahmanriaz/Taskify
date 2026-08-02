@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name='csrf-token' content={{ csrf_token() }} />
 <title>Dashboard — Taskify Provider</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -72,7 +73,7 @@
         </a>
       </li>
       <li>
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{ route('provider.bookings') }}">
           <svg class="nav-link__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <rect x="3" y="4" width="18" height="17" rx="2"></rect>
             <path d="M3 9h18M8 2v4M16 2v4"></path>
@@ -204,5 +205,6 @@
     mobileQuery.addEventListener('change', syncForViewport);
   })();
 </script>
+@stack('scripts')
 </body>
 </html>
