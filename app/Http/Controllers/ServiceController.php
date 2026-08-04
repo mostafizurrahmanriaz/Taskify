@@ -104,4 +104,28 @@ class ServiceController extends Controller
         $service->delete();
         return redirect()->route('provider.services');
     }
+
+
+        public function searchData(Request $reqeust){
+            $query = Service::query();
+            $categories = Category::all();
+         //  Search
+            if ($reqeust->search) {
+           $query->orWhere(function ($q) use ($reqeust) {
+            $q->where('title', 'like', '%'.$reqeust->search.'%')
+              ->orWhere('description', 'like', '%'.$reqeust->search.'%');
+            });
+            }
+
+            if($reqeust->category){
+               $query->orWhere(function ($q) use ($reqeust) {
+               $q->Where('category_id', $reqeust->category);
+            });
+               
+            }
+            $services = $query->with('provider.user')->paginate(6)->withQueryString();
+  
+             return view ('user.services', compact('services', 'categories'));
+
+    }
 }

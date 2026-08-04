@@ -37,7 +37,7 @@
                         <a class="nav-link" href="{{ route('dashboard') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#services">Services</a>
+                        <a class="nav-link" href="{{ route('user.services') }}">Services</a>
                     </li>
                     @if (Auth::check())
                         <a class="nav-link" href="{{ route('booking.history') }}">My Bookings</a>

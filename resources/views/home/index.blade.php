@@ -7,21 +7,20 @@
                 <div class="col-lg-10 mx-auto text-center">
                     <h1>Find Trusted Local Services Near You</h1>
                     <p>Connect with skilled professionals in your area. From home repairs to personal services, we've got you covered.</p>
-                    
+                   <form method="GET" action="{{ route('services.search') }}"> 
                     <div class="search-box">
-                        <input type="text" placeholder="What service do you need?" class="flex-grow-1">
-                        <select class="form-select">
-                            <option selected>All Categories</option>
-                            <option>Cleaning</option>
-                            <option>Plumbing</option>
-                            <option>Electrician</option>
-                            <option>Carpentry</option>
-                            <option>Painting</option>
-                            <option>Moving</option>
-                            <option>Gardening</option>
+                        
+                        <input type="text" placeholder="What service do you need?" name="search" class="flex-grow-1">
+                        <select class="form-select" name="category">
+                            <option selected>All Categories</option
+                            @foreach ($categories as $category)>
+                               <option value="{{$category->id}}">{{$category->name}}</option>
+                            @endforeach
                         </select>
                         <button class="btn-search">Search</button>
+                      
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -35,7 +34,7 @@
             <h2 class="section-title">Popular Categories</h2>
             
             <div class="row">
-                <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="col-lg-3 col-md-4 col-sm-6" onclick="window.location.href='/services?category=5'">
                     <div class="category-card">
                         <div class="category-icon">
                             <i class="bi bi-water"></i>
@@ -45,7 +44,7 @@
                     </div>
                 </div>
                 
-                <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="col-lg-3 col-md-4 col-sm-6" onclick="window.location.href='/services?category=1'">
                     <div class="category-card">
                         <div class="category-icon">
                             <i class="bi bi-wrench-adjustable"></i>
@@ -55,7 +54,7 @@
                     </div>
                 </div>
                 
-                <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="col-lg-3 col-md-4 col-sm-6" onclick="window.location.href='/services?category=2'">
                     <div class="category-card">
                         <div class="category-icon">
                             <i class="bi bi-lightning-charge-fill"></i>
@@ -65,7 +64,7 @@
                     </div>
                 </div>
                 
-                <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="col-lg-3 col-md-4 col-sm-6" onclick="window.location.href='/services?category=3'">
                     <div class="category-card">
                         <div class="category-icon">
                             <i class="bi bi-hammer"></i>
@@ -75,7 +74,7 @@
                     </div>
                 </div>
                 
-                <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="col-lg-3 col-md-4 col-sm-6" onclick="window.location.href='/services?category=4'">
                     <div class="category-card">
                         <div class="category-icon">
                             <i class="bi bi-paint-bucket"></i>
@@ -85,7 +84,7 @@
                     </div>
                 </div>
                 
-                <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="col-lg-3 col-md-4 col-sm-6" onclick="window.location.href='/services?category=7'">
                     <div class="category-card">
                         <div class="category-icon">
                             <i class="bi bi-truck"></i>
@@ -95,7 +94,7 @@
                     </div>
                 </div>
                 
-                <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="col-lg-3 col-md-4 col-sm-6" onclick="window.location.href='/services?category=6'">
                     <div class="category-card">
                         <div class="category-icon">
                             <i class="bi bi-tree-fill"></i>
@@ -105,7 +104,7 @@
                     </div>
                 </div>
                 
-                <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="col-lg-3 col-md-4 col-sm-6" onclick="window.location.href='/services?category=8'">
                     <div class="category-card">
                         <div class="category-icon">
                             <i class="bi bi-tools"></i>

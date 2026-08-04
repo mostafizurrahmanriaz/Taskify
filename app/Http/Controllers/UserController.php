@@ -13,7 +13,9 @@ class UserController extends Controller
     public function dashboard(){
         
         $services = Service::where('status', 'Active')->with('provider')->take(6)->get();
-        return view('home/index', compact('services'));
+        $categories = Category::all();
+
+        return view('home/index', compact('services', 'categories'));
        }
     public function serviceDatails(string $id){
 
@@ -71,4 +73,10 @@ class UserController extends Controller
             return view ('user.booking__status', compact('booking', 'category', 'provider'));
         }
     }
+
+    public function services(){
+                $services = Service::with('provider.user')->latest()->paginate(3);
+                return view ('user.services', compact('services'));
+    }
+
 }

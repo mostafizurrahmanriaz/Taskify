@@ -385,7 +385,7 @@
   </div>
 
   <!-- 5. Action Section -->
-  <div class="card card-soft">
+  {{-- <div class="card card-soft">
     <div class="card-body action-card">
       <div id="actionArea">
         <button id="markCompletedBtn" class="btn btn-primary-soft">
@@ -399,7 +399,7 @@
   <div id="successAlert" class="alert alert-success d-none mt-3" role="alert">
     <i class="bi bi-check-circle-fill me-2"></i>
     Booking marked as completed successfully!
-  </div>
+  </div> --}}
 
 </div>
 @endsection

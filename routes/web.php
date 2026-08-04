@@ -58,9 +58,11 @@ Route::middleware('auth')->group(function(){
         Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
 
         Route::get('/user/service-details/{id}', [UserController::class, 'serviceDatails'])->name('services.details');
+        Route::get('/services', [ServiceController::class, 'searchData'])->name('services.search');
         Route::post('/user/booking-service', [UserController::class, 'bookingService'])->name('save.booking');
         Route::get('/user/my-bookings', [UserController::class, 'bookinghistory'])->name('booking.history');
         Route::get('/user/my-bookings/{id}', [UserController::class, 'view'])->name('booking.view');
+        Route::get('/user/services', [ServiceController::class, 'searchData'])->name('user.services');
 
         });
         
