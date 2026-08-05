@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Models\Category;
 use App\Models\User;
 use App\Models\Service;
 use Illuminate\Http\Request;
@@ -57,7 +58,8 @@ class AuthController extends Controller
 
     public function dashboard(){
         $services = Service::where('status', 'Active')->with('provider')->take(6)->get();
-        return view('home/index', compact('services'));
+        $categories = Category::all();
+        return view('home/index', compact('services', 'categories'));
     }
     public function logOut(){
         Auth::logout();

@@ -36,7 +36,7 @@
                 @enderror
             </div>
             <div class="mb-3">
-                <input type="number" class="form-control" placeholder="Email Address" name="number">
+                <input type="number" class="form-control" placeholder="Phone Number" name="number">
                 @error('number')
                     <span style="color: #ff7e5f">{{ $message }} </span>
                 @enderror

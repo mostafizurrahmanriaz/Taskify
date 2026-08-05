@@ -45,9 +45,32 @@
         ৳ {{ $service->price }} <span class="visually-hidden">starting price</span>
         </p>
 
+
         <div class="rating" role="img" aria-label="Rated 4.5 out of 5 from 20 reviews">
-          <span class="stars" aria-hidden="true">★★★★☆</span>
-          <span class="rating-text">4.5 (20 reviews)</span>
+                    @php
+                        $avg = $service->reviews_avg_rating ?? 0;
+                        $full = floor($avg);
+                        $half = ($avg - $full) >= 0.5;
+                    @endphp
+          <span class="stars" aria-hidden="true">
+                        @for ($i = 1; $i <= 5; $i++)
+                            @if ($i <= $full)
+                                <i class="bi bi-star-fill"></i>
+                            @elseif ($half && $i == $full + 1)
+                                <i class="bi bi-star-half"></i>
+                            @else
+                                <i class="bi bi-star"></i>
+                            @endif
+                        @endfor
+          </span>
+          <span class="rating-text">
+             @if ($service->reviews_count > 0)
+             {{ number_format($avg, 1) }}
+             ({{ $service->reviews_count }} reviews)
+             @else 
+             (No reviews yet)
+            @endif
+          </span>
         </div>
 
         <p class="service-location">
