@@ -1,340 +1,295 @@
-# Taskify — Local Service Finder
+# Taskify — Local Service Marketplace
 
-> A Laravel-based local service marketplace that connects customers with service providers for discovering, booking, and managing local services.
+> A Laravel-based marketplace designed to solve a simple business problem: making it easier for customers to discover local services while giving service providers a structured way to manage their services and booking requests.
 
-Taskify is designed around a simple idea: **help users find trusted local service providers quickly while giving providers a dedicated dashboard to manage services and booking requests.**
-
----
-
-## 📌 Project Overview
-
-Taskify provides two main experiences:
-
-- **Customers / Users** can browse services, search by keyword, filter by category, view service details, book services, and track booking status.
-- **Service Providers** can complete their provider profile, create and manage services, receive booking requests, accept or reject requests, and manage completed jobs.
-
-The project uses a role-based authentication system with a shared `users` table and separate provider profile data.
+Taskify is a portfolio project focused on **business workflow, role-based access, service discovery, and booking management** — not just CRUD screens.
 
 ---
 
-## 🎯 Project Goals
+## Why I Built Taskify
 
-- Make local service discovery simple.
-- Connect customers with individual service providers.
-- Give providers a dedicated management dashboard.
-- Provide a simple booking workflow.
-- Keep the application understandable and scalable for future features.
+Many local service businesses can have two sides of the same problem:
+
+**Customers**
+- Struggle to find relevant local services quickly.
+- Need a simple way to compare service information.
+- Want to know the status of a booking request.
+
+**Service Providers**
+- Need a place to publish and manage their services.
+- Need to manage incoming booking requests.
+- Should not expose customer/contact information before a booking is accepted.
+- Need a simple dashboard to track services and jobs.
+
+### The product idea
+
+Taskify connects these two sides through a simple workflow:
+
+```text
+Customer
+   ↓
+Discover a service
+   ↓
+View service/provider
+   ↓
+Create booking request
+   ↓
+Provider reviews request
+   ↓
+Accept / Reject
+   ↓
+Accepted → contact information becomes available
+   ↓
+Service completed
+```
+
+The goal is to turn a manual, disconnected process into one manageable web application.
 
 ---
 
-## ✨ Current Features
+## Business Problems Solved
 
-### 👤 User / Customer Features
+### 1. Difficult service discovery
 
-- User registration and login
-- Role-based access for users and providers
-- User dashboard
-- Browse all available services
-- Search services by title and description
-- Filter services by category
-- Paginated service listings
+**Problem:** Customers need to search through local services instead of relying only on informal recommendations.
+
+**Solution:** Taskify provides:
+- Service search
+- Category filtering
+- Paginated listings
+- Service detail pages
+- Provider information
+
+---
+
+### 2. Unstructured provider management
+
+**Problem:** A service provider needs somewhere to manage multiple services and incoming requests.
+
+**Solution:** Each provider gets a dedicated dashboard where they can:
+- Complete their provider profile
+- Create services
+- Manage services
+- Receive booking requests
+- Accept or reject requests
+- Mark accepted jobs as completed
+
+---
+
+### 3. Unclear booking workflow
+
+**Problem:** A booking request needs a clear lifecycle so both sides know what happens next.
+
+**Solution:** Taskify uses an explicit booking state machine:
+
+```text
+pending
+   ├──→ accepted → completed
+   │
+   └──→ rejected
+```
+
+This gives the marketplace a predictable workflow for both customers and providers.
+
+---
+
+### 4. Contact information should not be exposed too early
+
+**Problem:** Customer/provider contact information may need to remain private until a request is approved.
+
+**Solution:** Taskify controls contact visibility based on booking status:
+
+```text
+Pending   → Hidden
+Accepted  → Visible
+Rejected  → Hidden
+Completed → Remains available
+```
+
+This is a business rule implemented at the application level, not just a UI decision.
+
+---
+
+## Core Product Features
+
+### Customer
+
+- Registration and login
+- Browse services
+- Search by title and description
+- Filter by category
+- Paginated results
 - Preserve search/filter parameters during pagination
 - View service details
 - View provider information
-- Provider "About Me" information
-- Service image with fallback support
-- Direct service booking
-- My Bookings page
-- Booking status tracking
-- Booking statuses:
-  - Pending
-  - Accepted
-  - Rejected
-  - Completed
-- Provider contact information becomes available after a booking is accepted
+- Book services
+- View personal bookings
+- Track booking status
 
-### 🧑‍🔧 Provider Features
+### Provider
 
 - Provider registration
-- Automatic authentication after registration
-- Provider setup/profile completion flow
-- Provider-specific dashboard
-- Provider profile connected to the authenticated user through `user_id`
-- Create services
-- View and manage services
-- Service fields:
-  - Title
-  - Category
-  - Price
-  - Description
-  - Image
+- Automatic login after registration
+- Provider setup flow
+- Provider dashboard
+- Create and manage services
 - Optional service image upload
-- Provider address used as the default service location
 - Receive booking requests
-- View booking details
-- Accept booking requests
-- Reject booking requests
-- View customer information after accepting a booking
+- Accept or reject requests
+- View customer information after acceptance
 - Mark accepted bookings as completed
-- Dashboard statistics:
-  - Total Services
-  - Total Bookings
-  - Completed Jobs
-- Recent bookings section
-- Quick Actions section
+- View dashboard statistics and recent bookings
 
 ---
 
-## 🔐 Authentication & Authorization
+## Product Workflow
 
-Taskify uses a **single authentication system** based on the `users` table.
+### Customer Journey
 
-### Roles
+```text
+Register
+   ↓
+Login
+   ↓
+Browse Services
+   ↓
+Search / Filter
+   ↓
+View Service
+   ↓
+Book
+   ↓
+Track Booking Status
+```
+
+### Provider Journey
+
+```text
+Register
+   ↓
+Provider Setup
+   ↓
+Provider Dashboard
+   ↓
+Create Service
+   ↓
+Receive Booking
+   ↓
+Accept / Reject
+   ↓
+View Customer Contact (after acceptance)
+   ↓
+Complete Job
+```
+
+---
+
+## Main Business Rules
+
+Taskify demonstrates several rules that matter in a real marketplace.
+
+### Role-based access
+
+The application uses a shared `users` table with two roles:
 
 ```text
 user
 provider
 ```
 
-A provider is also an authenticated user, with additional provider-specific information stored in the `providers` table.
+A provider is still an authenticated user, with additional provider-specific information stored separately.
 
-### Authentication Flow
+### Provider ownership
 
-```text
-Register
-   ↓
-Auto Login
-   ↓
-Check Role
-   ├── user     → User Dashboard
-   │
-   └── provider → Provider Setup
-                     ↓
-                Provider Dashboard
-```
+A provider can manage only their own services and booking-related data.
 
-### Provider Setup Flow
+### Booking ownership
 
-A provider must complete the provider setup before accessing provider-specific dashboard features.
+Private booking information is shown only when the authenticated user is authorized to access it.
+
+### Contact visibility
+
+Provider/customer contact information becomes available only after the provider accepts the booking.
+
+### Provider location
+
+A provider's address is used as the default service location.
+
+---
+
+## Application Architecture
+
+The core relationships are:
 
 ```text
 User
-  │
-  └── hasOne → Provider
-                  │
-                  └── hasMany → Services
+ ├── hasOne → Provider
+ └── hasMany → Booking
+
+Provider
+ ├── belongsTo → User
+ ├── hasMany → Service
+ └── hasMany → Booking
+
+Service
+ ├── belongsTo → Provider
+ └── belongsTo → Category
+
+Booking
+ ├── belongsTo → User
+ ├── belongsTo → Provider
+ └── belongsTo → Service
+```
+
+### Core data model
+
+```text
+users
+ ├── id
+ ├── name
+ ├── email
+ ├── password
+ └── role
+
+providers
+ ├── id
+ ├── user_id
+ ├── phone
+ ├── address
+ ├── about
+ └── profile_image
+
+categories
+ ├── id
+ └── name
+
+services
+ ├── id
+ ├── provider_id
+ ├── category_id
+ ├── title
+ ├── description
+ ├── price
+ ├── image
+ ├── status
+ ├── reviews_avg_rating
+ └── reviews_count
+
+bookings
+ ├── id
+ ├── user_id
+ ├── provider_id
+ ├── service_id
+ ├── price
+ ├── status
+ └── timestamps
 ```
 
 ---
 
-## 🗃️ Database Structure
+## Example: Search & Discovery
 
-### `users`
-
-Stores authentication/account information.
-
-```text
-id
-name
-email
-password
-role
-created_at
-updated_at
-```
-
-### `providers`
-
-Stores provider-specific information.
-
-```text
-id
-user_id
-phone
-address
-about
-profile_image
-created_at
-updated_at
-```
-
-### `categories`
-
-Stores service categories such as:
-
-```text
-Plumbing
-Electrical
-Cleaning
-Painting
-Gardening
-Appliance Repair
-Moving
-```
-
-### `services`
-
-Stores services offered by providers.
-
-```text
-id
-provider_id
-category_id
-title
-description
-price
-image
-status
-reviews_avg_rating
-reviews_count
-created_at
-updated_at
-```
-
-### `bookings`
-
-Stores customer booking requests.
-
-```text
-id
-user_id
-provider_id
-service_id
-price
-status
-created_at
-updated_at
-```
-
-Current booking lifecycle:
-
-```text
-pending
-   ↓
-accepted
-   ↓
-completed
-
-pending
-   ↓
-rejected
-```
-
----
-
-## 🔗 Main Laravel Relationships
-
-### User
-
-```php
-public function provider()
-{
-    return $this->hasOne(Provider::class);
-}
-
-public function bookings()
-{
-    return $this->hasMany(Booking::class);
-}
-```
-
-### Provider
-
-```php
-public function user()
-{
-    return $this->belongsTo(User::class);
-}
-
-public function services()
-{
-    return $this->hasMany(Service::class);
-}
-
-public function bookings()
-{
-    return $this->hasMany(Booking::class);
-}
-```
-
-### Service
-
-```php
-public function provider()
-{
-    return $this->belongsTo(Provider::class);
-}
-
-public function category()
-{
-    return $this->belongsTo(Category::class);
-}
-```
-
-### Booking
-
-```php
-public function user()
-{
-    return $this->belongsTo(User::class);
-}
-
-public function provider()
-{
-    return $this->belongsTo(Provider::class);
-}
-
-public function service()
-{
-    return $this->belongsTo(Service::class);
-}
-```
-
----
-
-## 🔄 Booking Workflow
-
-```text
-Customer
-   ↓
-Browse Services
-   ↓
-View Service Details
-   ↓
-Book Now
-   ↓
-Booking Created
-(status = pending)
-   ↓
-Provider Dashboard
-   ↓
-Accept OR Reject
-   │
-   ├── Reject → rejected
-   │
-   └── Accept
-          ↓
-       accepted
-          ↓
-   Provider performs service
-          ↓
-       completed
-```
-
-### Contact Visibility
-
-```text
-Pending   → Contact hidden
-Accepted  → Contact visible
-Rejected  → Contact hidden
-Completed → Contact remains available
-```
-
----
-
-## 🔍 Search & Filtering
-
-The service listing supports Laravel GET-based filtering.
+The service listing supports GET-based search and filtering.
 
 Example:
 
@@ -342,15 +297,7 @@ Example:
 /services?search=Plumbing+Sanitary+Service&category=3&page=2
 ```
 
-Current search/filter functionality includes:
-
-- Search by service title
-- Search by service description
-- Category filtering
-- Pagination
-- Query-string preservation
-
-Example:
+Laravel pagination keeps the active query parameters:
 
 ```php
 $services = $query
@@ -358,106 +305,51 @@ $services = $query
     ->withQueryString();
 ```
 
+This means users can move between pages without losing their current search/filter state.
+
 ---
 
-## 📄 Service Listing
+## Example: Booking State
 
-The All Services page uses a marketplace-style layout:
+A newly created booking starts as:
 
 ```text
-┌──────────────────────────────────────────┐
-│ Search + Sort                            │
-├─────────────┬────────────────────────────┤
-│ Filters     │ Service Cards              │
-│ Category    │ Service Cards              │
-│ Price       │ Service Cards              │
-│ Location    │                            │
-│             │ Pagination                 │
-└─────────────┴────────────────────────────┘
+pending
 ```
 
-Service cards follow the homepage Featured Services visual style:
-
-- Service image
-- Service title
-- Location/provider information
-- Rating
-- Price
-- View Details button
-- Responsive layout
-- Hover interactions
-
----
-
-## 💰 Pricing
-
-The current MVP uses a **fixed-price model**.
-
-Examples:
+The provider can then:
 
 ```text
-AC Servicing             ৳2600
-Plumbing Service         ৳1800
-Home Cleaning            ৳1000
+pending → accepted
+pending → rejected
+accepted → completed
 ```
 
-The price is stored in the `services` table.
+This provides a simple and predictable workflow that can later be extended with notifications, scheduling, payments, or messaging.
 
 ---
 
-## 🖼️ Service Images
+## Security & Authorization
 
-Service images are optional.
+The application follows these rules:
 
-When a provider does not upload an image, a default/fallback service image can be displayed so service cards never appear broken or empty.
-
----
-
-## 🎨 UI / Design
-
-Taskify uses a clean marketplace/dashboard visual style.
-
-### Primary Brand Color
-
-```text
-#FF6B6B
-```
-
-The primary color is mainly used for:
-
-- Primary actions
-- Active states
-- Highlights
-- Icons
-- Hover states
-- Important booking actions
-
-### Provider Dashboard
-
-The provider dashboard is management-focused rather than a copy of the public homepage.
-
-```text
-Sidebar
-   ↓
-Dashboard
-   ↓
-Statistics
-   ↓
-Recent Bookings
-   ↓
-Quick Actions
-   ↓
-Small Dashboard Footer
-```
+- Authentication is required for protected pages.
+- Access is controlled by user role.
+- Provider ownership is checked before managing services/bookings.
+- `user_id` is taken from the authenticated session rather than trusting frontend input.
+- Booking ownership is checked before private booking information is displayed.
+- Contact information is restricted until booking acceptance.
+- CSRF protection is used for POST requests.
 
 ---
 
-## 🧰 Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |---|---|
 | Backend | Laravel / PHP |
-| Frontend | Blade, HTML, CSS, Bootstrap 5 where required |
+| Frontend | Blade, HTML, CSS |
+| UI | Bootstrap 5 where required |
 | JavaScript | Vanilla JavaScript |
 | Database | MySQL |
 | Package Manager | Composer / NPM |
@@ -465,7 +357,7 @@ Small Dashboard Footer
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```text
 app/
@@ -489,39 +381,27 @@ resources/
 
 routes/
 └── web.php
-
-public/
-├── images/
-└── ...
-
-storage/
-└── app/
 ```
 
 ---
 
-## 🚀 Installation
+## Run Locally
 
-### 1. Clone the repository
+### 1. Clone
 
 ```bash
 git clone https://github.com/YOUR-USERNAME/taskify.git
 cd taskify
 ```
 
-### 2. Install PHP dependencies
+### 2. Install dependencies
 
 ```bash
 composer install
-```
-
-### 3. Install frontend dependencies
-
-```bash
 npm install
 ```
 
-### 4. Create environment file
+### 3. Configure environment
 
 ```bash
 cp .env.example .env
@@ -533,13 +413,13 @@ Windows:
 copy .env.example .env
 ```
 
-### 5. Generate application key
+### 4. Generate application key
 
 ```bash
 php artisan key:generate
 ```
 
-### 6. Configure database
+### 5. Configure MySQL
 
 Update `.env`:
 
@@ -552,7 +432,7 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-### 7. Run migrations
+### 6. Migrate
 
 ```bash
 php artisan migrate
@@ -564,19 +444,19 @@ If seeders are available:
 php artisan db:seed
 ```
 
-### 8. Create storage link
+### 7. Create storage link
 
 ```bash
 php artisan storage:link
 ```
 
-### 9. Start Laravel
+### 8. Start the application
 
 ```bash
 php artisan serve
 ```
 
-Open:
+Then open:
 
 ```text
 http://127.0.0.1:8000
@@ -590,165 +470,9 @@ npm run dev
 
 ---
 
-## 🧪 Main Workflow Test
+## Current MVP Scope
 
-### Customer
-
-```text
-Register
-↓
-Login
-↓
-Browse Services
-↓
-Search / Filter
-↓
-View Service
-↓
-Book Service
-↓
-My Bookings
-↓
-Track Status
-```
-
-### Provider
-
-```text
-Register
-↓
-Provider Setup
-↓
-Provider Dashboard
-↓
-Create Service
-↓
-Receive Booking
-↓
-Accept / Reject
-↓
-View Customer Contact
-↓
-Complete Job
-```
-
----
-
-## 📊 Provider Dashboard Metrics
-
-### Total Services
-
-Number of services belonging to the logged-in provider.
-
-### Total Bookings
-
-Number of booking requests received by the provider.
-
-### Completed Jobs
-
-Number of provider bookings with:
-
-```text
-status = completed
-```
-
-### Recent Bookings
-
-The dashboard displays the latest booking requests so providers can quickly see what needs attention.
-
----
-
-## ⭐ Reviews & Ratings
-
-### Current Status
-
-Service cards support rating/review display fields such as:
-
-```text
-4.8 (24 reviews)
-```
-
-For the current MVP, rating values may be manually populated as demo data.
-
-### 🔜 Coming Soon — Review System
-
-A complete review system is planned for a future update.
-
-Planned workflow:
-
-```text
-Booking Completed
-      ↓
-Customer leaves review
-      ↓
-1–5 star rating
-      ↓
-Optional written feedback
-      ↓
-Average rating updated
-```
-
-The review feature is **planned for an upcoming update** and is not yet part of the completed core workflow.
-
----
-
-## 🔒 Security & Authorization
-
-The application follows these principles:
-
-- Authentication required for protected pages
-- Role-based authorization
-- Provider ownership checks for services and bookings
-- `user_id` comes from the authenticated session rather than frontend input
-- Booking ownership is checked before showing private booking information
-- Provider/customer contact information is restricted until booking acceptance
-- CSRF protection for POST requests
-
----
-
-## 🧠 Important Architecture Decisions
-
-### Provider ≠ Service
-
-One provider can offer multiple services:
-
-```text
-Provider
-   ├── AC Servicing
-   ├── Plumbing
-   ├── Electrical Repair
-   └── Cleaning
-```
-
-### Category belongs to Service
-
-`category_id` is stored on `services` because each service belongs to a category.
-
-```text
-Service
-   ↓
-Category
-```
-
-### Provider belongs to User
-
-Provider business/profile information is kept separate from authentication data:
-
-```text
-User
-   ↓
-Provider
-```
-
----
-
-## 📌 Project Status
-
-```text
-🟡 MVP / Active Development
-```
-
-Core development focus:
+The current MVP focuses on:
 
 ```text
 Authentication
@@ -768,55 +492,102 @@ Provider Booking Management
 Booking Completion
 ```
 
-### Upcoming
+### Planned improvements
+
+These are future features, not completed core features:
+
+- Reviews and ratings
+- User/provider messaging
+- Booking date and time scheduling
+- Notifications
+- Favorites
+- Provider analytics
+- Online payments
+- Provider verification
+- Mobile/API support
+- Admin dashboard
+- Platform reporting and analytics
+- More dynamic AJAX/Livewire interactions
+
+---
+
+## What This Project Demonstrates
+
+This project demonstrates more than Laravel syntax.
+
+### Product thinking
+I translated a real-world marketplace scenario into application workflows and business rules.
+
+### Backend development
+- Authentication
+- Role-based access
+- Eloquent relationships
+- Search and filtering
+- Pagination
+- Booking lifecycle management
+- Authorization checks
+
+### Business logic
+- Provider/customer role separation
+- Booking state transitions
+- Ownership rules
+- Conditional contact visibility
+
+### Full-stack execution
+- Database design
+- Laravel backend
+- Blade-based frontend
+- Responsive marketplace/dashboard UI
+- File/image handling
+
+---
+
+## Why This Project Matters in a Portfolio
+
+Taskify represents the type of work I want to do for real businesses:
+
+> **Take a business workflow, translate it into software, and build the rules that make the workflow work.**
+
+The technology is Laravel, PHP, MySQL, Blade, and JavaScript.
+
+The more important part is the ability to turn:
 
 ```text
-⭐ Reviews & Ratings
-💬 Messaging / Chat
-📅 Scheduling
-🔔 Notifications
-📍 Advanced Location Search
+Business Problem
+      ↓
+Workflow
+      ↓
+Business Rules
+      ↓
+Database Design
+      ↓
+Application Logic
+      ↓
+Usable Product
 ```
 
 ---
 
-## 🔮 Future Improvements
+## Project Status
 
-- ⭐ Complete review and rating system
-- 💬 User-provider messaging/chat
-- 📅 Booking date and time scheduling
-- 🔔 Notifications
-- ❤️ Favorite services
-- 📈 Provider analytics
-- 💳 Online payments
-- 🛡️ Provider verification
-- 📱 Mobile/API support
-- 🧑‍💼 Admin dashboard
-- 📊 Platform reports and analytics
-- ⚡ More dynamic AJAX/Livewire interactions
+🟡 **MVP / Active Development**
+
+The core marketplace and booking workflow is implemented. Additional marketplace capabilities are planned for future iterations.
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 **Mostafizur Rahman**
 
 Laravel Developer
 
-**Taskify — Local Service Finder System**
+**Focus:** Laravel Development • API Development • AI Automation • SaaS
 
 ---
 
-## 📄 License
+## License
 
 This project is currently a learning/portfolio development project.
 
-If you publish it as open source, add your chosen license (for example, MIT License).
-
----
-
-## ⭐ Support the Project
-
-If you find Taskify useful or interesting, consider giving the repository a ⭐ on GitHub.
-
-More features are planned for upcoming updates, including the **Reviews & Ratings system**.
+If published as open source, add a license such as MIT.
