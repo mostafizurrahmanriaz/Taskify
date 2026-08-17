@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use app\http\Models\Booking;
 use App\Models\Booking as ModelsBooking;
 use App\Models\Category;
+use App\Models\Provider;
 
 class BookingController extends Controller
 {
@@ -14,8 +15,10 @@ class BookingController extends Controller
         }
 
         public function allBooking (){
-        $provider = auth()->user()->id;
-        $bookings = ModelsBooking::with('service')->with('user')->where('provider_id', $provider)->get();
+        $user = auth()->id();
+        $provider = Provider::where('user_id', $user)->get();
+        $provider_id = $provider[0]['id'];
+        $bookings = ModelsBooking::with('service')->with('user')->where('provider_id', $provider_id)->latest()->get();
         return response()->json($bookings);
 
         }

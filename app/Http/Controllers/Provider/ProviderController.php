@@ -35,13 +35,15 @@ class ProviderController extends Controller
     }
 
     public function ProviderDashboard(){
-        $provider = auth()->id();
-        $total_services = Service::where('provider_id', $provider)->count();
-        $total_bookings = Booking::where('provider_id', $provider)->count();
-        $total_completed = Booking::where('provider_id', $provider)->where('status', 'completed')->count();
+        $user = auth()->id();
+        $provider = Provider::where('user_id', $user)->get();
+        $provider_id = $provider[0]['id'];
+        $total_services = Service::where('provider_id', $provider_id)->count();
+        $total_bookings = Booking::where('provider_id', $provider_id)->count();
+        $total_completed = Booking::where('provider_id', $provider_id)->where('status', 'completed')->count();
 
         //recent booking 
-        $bookings = Booking::where('provider_id', $provider)->with('service')->latest()->take(5)->get();
+        $bookings = Booking::where('provider_id', $provider_id)->with('service')->latest()->take(5)->get();
 
         return view('provider/dashboard', compact('total_services', 'total_bookings', 'total_completed', 'bookings'));
     }
