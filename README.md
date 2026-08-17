@@ -33,7 +33,7 @@ The project uses a role-based authentication system with a shared `users` table 
 
 > Explore the deployed Taskify application and experience the customer and provider workflows.
 
-> **Demo Note** Replace the URL above with your final production/demo URL if it changes.
+
 
 ---
 
@@ -55,7 +55,6 @@ Use the demo accounts below to explore the main Taskify workflows.
 | Email | `alex@gmail.com` |
 | Password | `12345678` |
 
-> **Demo account note:** These accounts are intended for portfolio/demo access. Do not use real personal passwords or production credentials in this repository.
 
 ---
 
